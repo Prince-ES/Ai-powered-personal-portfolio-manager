@@ -19,7 +19,7 @@ function AuthCard ({mode}){
                     <input required value={password} onChange={(e)=>{setPassword(e.target.value);console.log('password updated')}} type="password" placeholder="Password" className="w-[350px] border border-black-300 focus:outline-none bg-gray-50 p-4 rounded-[10px] mt-4 h-[50px]" />
 
                    {isSignup && <input required value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value);console.log('confirmPassword updated')}} type="password" placeholder="Confirm Password" className={`w-[350px]  rounded-[10px] border-1  h-[50px]  bg-gray-50 p-4 mt-4 focus:outline-none
-                   ${matchPassword? 'border-black-300 ' : 'border-2 border-red-400 focus:ring-red-500 focus:outline-red  '}`}  />}
+                   ${matchPassword? 'border-slate-950' : 'border-2 border-red-400 focus:ring-red-500 focus:outline-red  '}`}  />}
 
                     {!isSignup && <div className="forgotPass mt-2 text-sm ">
                         Forgot password? <Link to="#" className="text-blue-50 hover:underline">Click here</Link>
@@ -30,7 +30,7 @@ function AuthCard ({mode}){
                     <div className="noAccount mt-2 text-sm  text-center mt-4">
                         {isSignup ?
                             (<>Already have an account? <Link to="/login" className="text-gray-50 hover:underline">Log in</Link></>):
-                            (<>" Don't have an account?"  <Link to="/signup" className="text-gray-50 hover:underline">Sign up</Link></>)
+                            (<>Don't have an account?  <Link to="/signup" className="text-gray-50 hover:underline">Sign up</Link></>)
                         }
                     </div>
                 </form>                
