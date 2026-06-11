@@ -1,7 +1,15 @@
+@import "tailwindcss";
+
 html,
 body {
   height: 100%;
   width: 100vw;
-  overflow:hidden;
+  padding: 0;
   margin: 0;
+  scrollbar-width: none;
+  box-sizing: border-box;
+}
+
+#root{
+  height: 100%;
 }

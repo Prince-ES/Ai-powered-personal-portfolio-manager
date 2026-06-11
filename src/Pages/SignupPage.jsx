@@ -1,4 +1,4 @@
-import SignupCard from '../Components/LoginPageComponents/AuthCard';
+import SignupCard from '../Components/shared/AuthCard';
 import SignupHeadlines from '../Components/LoginPageComponents/LoginHeadlines';
 import loginBg from '../assets/loginBg1.jpg';
 function SignupPage(){
