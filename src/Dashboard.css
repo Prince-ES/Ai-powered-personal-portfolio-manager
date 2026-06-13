@@ -5,6 +5,7 @@
   background-image: url("./assets/DashboardBg.png");
   background-size: cover;
   background-position: center;
+  overflow-x: hidden;
 }
 
 .dashboard::after {
