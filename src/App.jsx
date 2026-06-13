@@ -2,6 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import Dashboard from './Pages/Dashboard.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
 import SignupPage from './Pages/SignupPage.jsx';
+import Navbar from './Pages/Index.jsx';
 import './LoginPage.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
 
   return (
       <Routes>
+        <Route path="/" element={<Navbar/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/signup" element={<SignupPage mode="signup"/>}/>
         <Route path="/login" element={<LoginPage mode="login"/>}/>      
@@ -19,3 +21,5 @@ function App() {
 }
 
 export default App
+
+
