@@ -32,7 +32,7 @@ function Index (){
                         Your AI-powered portfolio manager that turns market data into actionable insights.
                     </h3>
                 </div>
-                <div className="insightsOverview overflow-hidden w-1/2 max-lg:w-full">
+                <div className="insightsOverview overflow-hidden w-1/2 max-lg:w-full relative before:absolute before:left-0 after:content-[''] before:transform before:-translate-y-1/2 before:h-8 before:w-8 before:top-1/2 before:bg-white before:rotate-45 before:border-l-5 before:border-b-5 before:border-purple-600 before:z-4 before:left-20 after:content-[''] after:h-8 after:w-8 after:top-1/2 after:transform after:-translate-1/2 after:right-16 after:rotate-45 after:bg-white after:border-t-5 after:border-r-5 after:border-purple-600 after:absolute max-xl:after:right-8 after:z-[4] max-xl:before:left-12 max-md:before:left-4 max-md:after:right-0 max-lg:before:left-16 max-lg:after-right:16">
                     <div className={`images w-full flex transform transition-all duration 0.15s relative z-3    `} style={{transform:`translateX(-${index*100}%)`}}>
                         <div className="flex-shrink-0  w-full  flex items-center justify-center">
                             <img src={img1} className=" rounded-[10px]  h-[550px] w-[400px]  bg-blue-300" />
