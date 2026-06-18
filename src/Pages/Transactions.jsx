@@ -1,8 +1,13 @@
+import {useState} from 'react';
 import '../Dashboard.css';
 import Navbar from '../Components/Shared/Navbar.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import RotateYourPhone from '../assets/rotateYourPhone.mp4';
 function Transactions(){
+    const [searchInput, setSearchInput] = useState('');
+    const [selectInput, setSelectInput] = useState('');
+    const [dateInput, setDateInput] = useState('');
+    const [amountInput, setAmountInput] = useState('');
     return (
         <div className="dashboard pt-8 max-sm:pt-0">
             <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden"/>
@@ -17,11 +22,11 @@ function Transactions(){
                     </h2>
                 </div>
                 <div className="inputBox w-[50%] flex max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%]">
-                    <input type="text" placeholder="Type to search..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" />
+                    <input type="text" value={searchInput} placeholder="Type to search..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" onChange={(e)=>{setSearchInput(e.target.value);console.log(e.target.value)}}/>
                 </div>
                 <div className="filters flex justify-center w-[50%] text-xl  gap-4">
                     <div className="categoryFilter">
-                        <select name="category" className="outline-1 px-2 py-1 bg-white/25  rounded-[10px]" defaultValue="">
+                        <select name="category" value={selectInput}className="outline-1 px-2 py-1 bg-white/25  rounded-[10px]" onChange={(e)=>{setSelectInput(e.target.value);console.log(e.target.value)}}>
                             <option value="">Category</option>
                             <option value="food" >Food</option>
                             <option value="travel">Travel</option>
@@ -29,10 +34,10 @@ function Transactions(){
                         </select>
                     </div>
                     <div className="Date">
-                        <input type="date" className="outline-1 px-2 py-1 bg-white/35  rounded-[10px]" />
+                        <input type="date" value={dateInput} className="outline-1 px-2 py-1 bg-white/35  rounded-[10px]"  onChange={(e)=>{setDateInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                     <div className="amount ">
-                        <input type="number" placeholder='Amount' className="outline-1  rounded-[10px] py-1 px-2 bg-white/50"/>
+                        <input type="number" value={amountInput} placeholder='Amount' className="outline-1  rounded-[10px] py-1 px-2 bg-white/50" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                 </div>
                 <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex justify-between bg-black/35 text-white w-[80%] border">
