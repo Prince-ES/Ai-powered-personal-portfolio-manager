@@ -1,12 +1,13 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-function Navbar ({DashboardLogo, indexPage}){
+function Navbar ({DashboardLogo, indexPage, className}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     const isIndexPage = indexPage === "indexPage";
+    const hidden = className;
     return (
-            <div className="nav flex justify-between h-15 px-8">
+            <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
                 <div className="logo scale-125">
                     <Link to="/dashboard">
                         <img src={DashboardLogo} alt="Logo" className="logo-image h-full" />
