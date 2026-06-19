@@ -6,6 +6,7 @@ import SignupPage from './Pages/SignupPage.jsx';
 import Navbar from './Pages/Index.jsx';
 import Test from './Pages/Test.jsx';
 import './LoginPage.css';
+import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
 
 function App() {
   
@@ -18,8 +19,7 @@ function App() {
         <Route path="/" element={<Navbar/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/transactions" element={<Transactions/>} />
-        
-           
+        <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route>           
       </Routes>
     
     //understand browser router, routes etc
