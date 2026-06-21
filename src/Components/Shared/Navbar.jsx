@@ -29,7 +29,7 @@ function Navbar ({DashboardLogo, indexPage, className}){
                         <Link to="/dashboard">Dashboard</Link>
                     </div>
                     <div>
-                        <Link to="/portfoxlio">Portfolio</Link>
+                        <Link to="/portfolio">Portfolio</Link>
                     </div>
                     <div>
                         <Link to="/transactions">Transactions</Link>

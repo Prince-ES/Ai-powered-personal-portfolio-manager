@@ -1,4 +1,6 @@
 import {Routes, Route} from 'react-router-dom';
+import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
+import Portfolio from './Pages/Portfolio.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
 import Transactions from './Pages/Transactions.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
@@ -6,7 +8,7 @@ import SignupPage from './Pages/SignupPage.jsx';
 import Navbar from './Pages/Index.jsx';
 import Test from './Pages/Test.jsx';
 import './LoginPage.css';
-import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
+
 
 function App() {
   
@@ -19,7 +21,8 @@ function App() {
         <Route path="/" element={<Navbar/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/transactions" element={<Transactions/>} />
-        <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route>           
+        <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route> 
+        <Route path="/portfolio" element={<Portfolio/>}></Route>          
       </Routes>
     
     //understand browser router, routes etc

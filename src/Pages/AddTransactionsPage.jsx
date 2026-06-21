@@ -20,7 +20,7 @@ function AddTransactionPage(){
                 <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
                     Add Transaction
                 </div>
-                <div className="pageContent flex flex-col gap-4 pl-8 w-[60%] max-lg:w-[70%] max-md:w-[85%] max-sm:w-[90%]">
+                <div className="pageContent flex flex-col gap-4 w-[60%] max-lg:w-[70%] max-md:w-[85%] max-sm:w-[90%]">
                     <div className="transactionTitle flex gap-4 justify-between items-center">
                         <label htmlFor="#" className= "xl:text-center text-2xl font-bold text-white w-[30%]">Title</label>
                         <input type="text" value={title} className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%]" onChange={(e)=>{setTitle(e.target.value)}}/>
