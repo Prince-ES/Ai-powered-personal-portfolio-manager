@@ -11,8 +11,8 @@ function Portfolio(){
                 <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
                     Portfolio
                 </div>
-                <div className="pageContent py-4 flex flex-col gap-4 ">
-                    <div className="overview w-full flex justify-between px-8 text-2xl text-white ">
+                <div className="pageContent py-4 flex flex-col items-center gap-4 ">
+                    <div className="overview w-full flex justify-between px-8 max-md:px-2 gap-2 text-2xl text-white ">
                         <div className="investedAmount bg-black/35 border border-white flex items-center justify-center flex-col rounded-[10px] px-4 py-8">
                             <label htmlFor="" className="font-bold">Invested Amount</label>
                             <div className="amount">$100</div>
@@ -26,7 +26,7 @@ function Portfolio(){
                             <div className="amount">$2</div>
                         </div>
                     </div>
-                    <div className="portfolioCalc bg-black/35 w-[50%] flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] ml-8 pb-4 pt-2">
+                    <div className="portfolioCalc bg-black/35 w-[50%] flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] max-md:w-[95%] pb-4 pt-2">
                         <div className="heading text-2xl font-bold text-white">Portfolio Calculation</div>
                         <div className="pieChart h-[150px] w-[150px] rounded-full bg-red-300"></div>
                     </div>
