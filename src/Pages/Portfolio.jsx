@@ -12,8 +12,8 @@ function Portfolio(){
                 <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
                     Portfolio
                 </div>
-                <div className="pageContent py-4 flex flex-col items-center gap-4 ">
-                    <div className="overview w-full flex justify-between px-8 max-md:px-2 gap-2 text-2xl text-white ">
+                <div className="pageContent py-4 flex flex-col  gap-4 px-8">
+                    <div className="overview w-full flex justify-between  max-md:px-2 gap-2 text-2xl text-white ">
                         <div className="investedAmount bg-black/35 border border-white flex items-center justify-center flex-col rounded-[10px] px-4 py-8">
                             <label htmlFor="" className="font-bold">Invested Amount</label>
                             <div className="amount">$100</div>
@@ -27,10 +27,17 @@ function Portfolio(){
                             <div className="amount">$2</div>
                         </div>
                     </div>
-                    <div className="portfolioCalc bg-black/35 w-[50%] flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] max-md:w-[95%] pb-4 pt-2">
-                        <div className="heading text-2xl font-bold text-white">Portfolio Calculation</div>
-                        <div className="pieChart h-[150px] w-[150px] rounded-full bg-red-300"></div>
+                    <div className="charts flex justify-between ">
+                        <div className="portfolioCalc bg-black/35 w-[49%] flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
+                            <div className="heading text-2xl font-bold text-white self-start">Portfolio Calculation</div>
+                            <div className="pieChart h-[150px] w-[150px] rounded-full bg-red-300"></div>
+                        </div>
+                        <div className="portfolioCalc bg-black/35 w-[49%] flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
+                            <div className="heading text-2xl font-bold text-white self-start">Price Chart</div>
+                            <div className="pieChart h-full w-full border border-white"></div>
+                        </div>
                     </div>
+                    
                     <div className=" border border-white rounded-[10px] w-full  flex items-center justify-between px-8 py-4 bg-black/35 text-white">
                         <div className="flex flex-col items-center justify-center gap-2    ">
                             <div className="heading text-xl font-bold">
