@@ -9,7 +9,7 @@ function Navbar ({DashboardLogo, indexPage, className}){
     return (
             <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
                 <div className="logo scale-125">
-                    <Link to="/dashboard">
+                    <Link to="/">
                         <img src={DashboardLogo} alt="Logo" className="logo-image h-full" />
                     </Link>
                 </div>

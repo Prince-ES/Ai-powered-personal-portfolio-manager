@@ -7,6 +7,7 @@ import Transactions from './Pages/Transactions.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
 import SignupPage from './Pages/SignupPage.jsx';
 import Navbar from './Pages/Index.jsx';
+import AiInsightsPage from './Pages/AiInsightsPage.jsx';
 import Test from './Pages/Test.jsx';
 import './LoginPage.css';
 
@@ -24,7 +25,8 @@ function App() {
         <Route path="/transactions" element={<Transactions/>} />
         <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route> 
         <Route path="/portfolio" element={<Portfolio/>}></Route>  
-        <Route path="assetDetailsPage" element={<AssetDetailsPage/>}></Route>        
+        <Route path="/assetDetailsPage" element={<AssetDetailsPage/>}></Route>  
+        <Route path="/aiinsights" element={<AiInsightsPage/>}></Route>      
       </Routes>
     
     //understand browser router, routes etc

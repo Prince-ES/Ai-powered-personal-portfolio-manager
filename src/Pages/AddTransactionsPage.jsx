@@ -23,11 +23,11 @@ function AddTransactionPage(){
                 <div className="pageContent flex flex-col gap-4 w-[60%] max-lg:w-[70%] max-md:w-[85%] max-sm:w-[90%]">
                     <div className="transactionTitle flex gap-4 justify-between items-center">
                         <label htmlFor="#" className= "xl:text-center text-2xl font-bold text-white w-[30%]">Title</label>
-                        <input type="text" value={title} className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%]" onChange={(e)=>{setTitle(e.target.value)}}/>
+                        <input type="text" value={title} placeholder="Enter title" className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%]" onChange={(e)=>{setTitle(e.target.value)}}/>
                     </div>
                     <div className="transactionAmount flex gap-4 justify-between items-center">
                         <label htmlFor="" className=" xl:text-center text-2xl font-bold text-white w-[30%]">Amount </label>
-                        <input type="number" value={amount} className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%]" onChange={(e)=>{setAmount(e.target.value)}} />
+                        <input type="number" value={amount} placeholder="Enter Amount" className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%]" onChange={(e)=>{setAmount(e.target.value)}} />
                     </div>
                     <div className="transactionAmount flex gap-4 justify-between items-center">
                         <label htmlFor="#" className= "xl:text-center text-2xl font-bold text-white w-[30%]">Type </label>
@@ -52,7 +52,7 @@ function AddTransactionPage(){
                     </div>
                     <div className="transactionNotes flex gap-4 justify-between items-start">
                         <label htmlFor="" className=" xl:text-center text-2xl font-bold text-white w-[30%]">Notes</label>
-                        <textarea name="" id="" className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%] resize-none" rows={5}></textarea>
+                        <textarea name="" id="" placeholder="write a note"  className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%] resize-none" rows={5}></textarea>
                     </div>
                     <div className="saveOrCancel flex justify-end w-[100%] text-xl text-white gap-4 pl-8">
                         <button className=" w-[35%] py-2 border rounded-[10px] hover:scale-99 ">Cancel</button>
