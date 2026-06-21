@@ -1,5 +1,6 @@
 import {Routes, Route} from 'react-router-dom';
 import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
+import AssetDetailsPage from './Pages/AssetDetailsPage.jsx';
 import Portfolio from './Pages/Portfolio.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
 import Transactions from './Pages/Transactions.jsx';
@@ -22,7 +23,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/transactions" element={<Transactions/>} />
         <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route> 
-        <Route path="/portfolio" element={<Portfolio/>}></Route>          
+        <Route path="/portfolio" element={<Portfolio/>}></Route>  
+        <Route path="assetDetailsPage" element={<AssetDetailsPage/>}></Route>        
       </Routes>
     
     //understand browser router, routes etc

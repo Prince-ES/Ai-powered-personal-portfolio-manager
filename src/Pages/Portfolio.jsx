@@ -1,5 +1,6 @@
 
 import Navbar from '../Components/Shared/Navbar';
+import {Link} from 'react-router-dom'
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 
@@ -30,18 +31,18 @@ function Portfolio(){
                         <div className="heading text-2xl font-bold text-white">Portfolio Calculation</div>
                         <div className="pieChart h-[150px] w-[150px] rounded-full bg-red-300"></div>
                     </div>
-                    <div className="w-full border-y  flex items-center justify-between px-8 py-4 bg-black/35 text-white">
+                    <div className=" border border-white rounded-[10px] w-full  flex items-center justify-between px-8 py-4 bg-black/35 text-white">
                         <div className="flex flex-col items-center justify-center gap-2    ">
-                            <div className="heading">
+                            <div className="heading text-xl font-bold">
                                 Asset
                             </div>
                             <div className="items flex flex-col items-center justify-center">
-                                <span>Axis</span>
+                                <Link to="/assetDetailsPage">Axis</Link>
                                 <span>TCS</span>
                             </div>
                         </div>
                         <div className="assets flex flex-col items-center justify-center gap-2">
-                            <div className="heading">
+                            <div className="heading text-xl font-bold">
                                 Qty
                             </div>
                             <div className="items flex flex-col items-center justify-center">
@@ -50,7 +51,7 @@ function Portfolio(){
                             </div>
                         </div>
                         <div className="assets flex flex-col items-center justify-center gap-2">
-                            <div className="heading">
+                            <div className="heading text-xl font-bold">
                                 Avg Price
                             </div>
                             <div className="items flex flex-col items-center justify-center">
@@ -59,7 +60,7 @@ function Portfolio(){
                             </div>
                         </div>
                         <div className="assets flex flex-col items-center justify-center gap-2">
-                            <div className="heading">
+                            <div className="heading text-xl font-bold">
                                 CMP
                             </div>
                             <div className="items flex flex-col items-center justify-center">
@@ -68,7 +69,7 @@ function Portfolio(){
                             </div>
                         </div>
                         <div className="assets flex flex-col items-center justify-center gap-2">
-                            <div className="heading">
+                            <div className="heading text-xl font-bold">
                                 Profit/Loss
                             </div>
                             <div className="items flex flex-col items-center justify-center">
