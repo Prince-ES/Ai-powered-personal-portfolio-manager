@@ -1,17 +1,33 @@
 import {useState} from 'react';
 import Navbar from '../Components/Shared/Navbar.jsx';
+import axios from 'axios';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 function AddTransactionPage(){
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState('');
-    const [saveOn, setSaveOn] = useState(false);
+    const [transactionDate, setTransactionDate] = useState('');
     const [selected, setSelected] = useState('');
+    const [notes, setNotes] = useState('');
+    const [saveOn, setSaveOn] = useState(false);
+    
     function reStartSaveButton (){
         setTimeout(()=>{
+            setTitle('');
+            setAmount('');
+            setType('');
+            setTransactionDate('');
+            setSelected('');
+            setNotes('');
             setSaveOn(false);
-        },2000)
+        },1000)
+    }
+
+    async function saveTransaction(){
+       const response = await axios.post('http://localhost:5000/addTransaction',{title:title,amount:amount,type:type,date:transactionDate,category:selected,notes:notes});
+        console.log(response.data);
+       
     }
     return (
         <div className="dashboard pt-8">
@@ -39,7 +55,7 @@ function AddTransactionPage(){
                     <div className="transactionDate flex justify-between items-center">
                         <label htmlFor="" className=" xl:text-center text-2xl font-bold text-white w-[30%] ">Date </label>
                         <div className="dateAndCategory flex justify-between items-center w-[70%] gap-2 pl-2">
-                            <input type="Date" className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-1/2 " />
+                            <input type="Date" value={transactionDate} className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-1/2 " onChange={(e)=>{setTransactionDate(e.target.value)}}/>
                             <select name="" id="" value={selected} onChange={(e)=>{setSelected(e.target.value)}} className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-1/2">
                                 <option value="" disabled>Category</option>
                                 <option value="Food">Food</option>
@@ -52,11 +68,11 @@ function AddTransactionPage(){
                     </div>
                     <div className="transactionNotes flex gap-4 justify-between items-start">
                         <label htmlFor="" className=" xl:text-center text-2xl font-bold text-white w-[30%]">Notes</label>
-                        <textarea name="" id="" placeholder="write a note"  className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%] resize-none" rows={5}></textarea>
+                        <textarea name="" id="" value={notes}placeholder="write a note"  className="outline-1 bg-white text-xl px-2 py-2 rounded-[5px] w-[70%] resize-none" rows={5} onChange={(e)=>{setNotes(e.target.value)}} ></textarea>
                     </div>
                     <div className="saveOrCancel flex justify-end w-[100%] text-xl text-white gap-4 pl-8">
                         <button className=" w-[35%] py-2 border rounded-[10px] hover:scale-99 ">Cancel</button>
-                        <button className={` w-[35%] py-2 border rounded-[10px] hover:scale-99 ${saveOn? 'bg-gray-600': ' bg-[#0C161D]'}`} onClick={()=>{setSaveOn(true); reStartSaveButton();}}>Save</button>
+                        <button className={` w-[35%] py-2 border rounded-[10px] hover:scale-99 ${saveOn? 'bg-gray-600': ' bg-[#0C161D]'}`} onClick={()=>{setSaveOn(true); reStartSaveButton(); saveTransaction();}}>Save</button>
                     </div>
                 </div>
             </div>
