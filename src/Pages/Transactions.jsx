@@ -1,14 +1,26 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import '../Dashboard.css';
 import Navbar from '../Components/Shared/Navbar.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import RotateYourPhone from '../assets/rotateYourPhone.mp4';
-function Transactions(){
+ function Transactions(){
     const [searchInput, setSearchInput] = useState('');
     const [selectInput, setSelectInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [amountInput, setAmountInput] = useState('');
+    const [transactions,setTransactions] = useState([]);
+
+    useEffect(()=>{
+        async function getTransactions (){
+            const response = await  axios.get('http://localhost:5000/transactions');
+            setTransactions(response.data);
+        }
+        getTransactions();
+    },[])
+    
+
     return (
         <div className="dashboard pt-8 max-sm:pt-0">
             <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden"/>
@@ -41,66 +53,79 @@ function Transactions(){
                         <input type="number" value={amountInput} placeholder='Amount' className="outline-1  rounded-[10px] py-1 px-2 bg-white" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                 </div>
-                <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex justify-between bg-black/35 text-white w-[80%] border">
+                <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex justify-between bg-black/35 text-white w-[90%] border">
                     <div className="title ">
-                        <div className="heading text-xl font-bold">
+                        <div className="heading text-2xl font-bold">
                             Title
                         </div>
-                        <ul className="items pt-4">
-                            <li>Salary</li>
+                        <ul className="items flex flex-col gap-1 text-xl pt-4">
+                            {/* <li>Salary</li>
                             <li>Swiggy</li>
                             <li>Petrol</li>
                             <li>Profit</li>
                             <li>Salary</li>
                             <li>Swiggy</li>
                             <li>Petrol</li>
-                            <li>Profit</li>
-                            
+                            <li>Profit</li>                             */}
+                            {
+                                transactions.map((transaction)=>{
+                                    return <li key={transaction._id}>{transaction.title} </li>
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="title">
-                        <div className="heading text-xl font-bold text-center">
+                        <div className="heading text-2xl font-bold text-center">
                             Category
                         </div>
-                        <ul className="items pt-4 text-center">
-                            <li>Income</li>
-                            <li>Food</li>
-                            <li>Travel</li>
-                            <li>Income</li>
-                            <li>Income</li>
-                            <li>Food</li>
-                            <li>Travel</li>
-                            <li>Income</li>
+                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
+                           {
+                                transactions.map((transaction)=>{
+                                    return <li key={transaction._id}>{transaction.category} </li>
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="title">
-                        <div className="heading text-xl font-bold text-center">
+                        <div className="heading text-2xl font-bold text-center">
+                            Type
+                        </div>
+                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
+                            {
+                                transactions.map((transaction)=>{
+                                    return <li key={transaction._id}>{transaction.type} </li>
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="title">
+                        <div className="heading text-2xl font-bold text-center">
                             Amount
                         </div>
-                        <ul className="items pt-4 text-center">
-                            <li>+20,000</li>
-                            <li>-500</li>
-                            <li>-1000</li>
-                            <li>+2500</li>
-                            <li>+20,000</li>
-                            <li>-500</li>
-                            <li>-1000</li>
-                            <li>+2500</li>
+                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
+                            {
+                                transactions.map((transaction)=>{
+                                    return <li key={transaction._id}>{transaction.amount} </li>
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="title">
-                        <div className="heading text-xl font-bold text-center">
+                        <div className="heading text-2xl font-bold text-center">
                             Date
                         </div>
-                        <ul className="items pt-4 text-center">
-                            <li>12/06/2026</li>
-                            <li>15/06/2026</li>
-                            <li>16/06/2026</li>
-                            <li>19/06/2026</li>
-                            <li>12/06/2026</li>
-                            <li>15/06/2026</li>
-                            <li>16/06/2026</li>
-                            <li>19/06/2026</li>
+                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
+                            {
+                                transactions.map((transaction)=>{
+                                    return <li key={transaction._id}>{new Date(transaction.date).toLocaleString('en-GB', {
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })} </li>
+                                })
+                            }
                         </ul>
                     </div>
                 </div>

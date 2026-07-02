@@ -31,6 +31,10 @@ const transactionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    category:{
+        type: String,
+        required:true
+    },
     type: {
         type: String,
         required: true
@@ -55,8 +59,18 @@ app.get('/',(req,res)=>{
 app.post('/addTransaction', async(req,res)=>{
     try {
         const transaction = await transactionModel.create(req.body);
+
         res.status(200).json(transaction);
     }catch (err){
+        res.status(500).json({error:err.message});
+    }
+})
+
+app.get('/transactions', async(req,res)=>{
+    try{
+        const transactions = await transactionModel.find();
+        res.status(200).json(transactions);
+    }catch(err){
         res.status(500).json({error:err.message});
     }
 })
