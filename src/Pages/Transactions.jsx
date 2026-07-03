@@ -22,10 +22,10 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
     
 
     return (
-        <div className="dashboard pt-8 max-sm:pt-0">
-            <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden"/>
+        <div className="dashboard pt-4  max-sm:pt-0">
+            <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden fixed left-0 right-0 z-4"/>
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
-            <div className="content relative z-3 py-8 flex justify-center items-center flex-col gap-8 w-full max-sm:hidden">
+            <div className="content relative z-3 pt-20 flex justify-center items-center flex-col gap-5 w-full max-sm:hidden">
                 <div className="heading flex justify-between w-full  px-8 bg-black/35 border border-white py-4 border-x-0" >
                     <h1 className="headingTitle text-4xl font-bold text-white">
                         Transactions
@@ -34,101 +34,66 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                         + Add Transaction
                     </Link>
                 </div>
-                <div className="inputBox w-[50%] flex max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%]">
-                    <input type="text" value={searchInput} placeholder="Type to search..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" onChange={(e)=>{setSearchInput(e.target.value);console.log(e.target.value)}}/>
+                <div className="inputBox  w-full px-16 max-md:px-8">
+                    <input type="text" value={searchInput} placeholder="Type to search by title..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" onChange={(e)=>{setSearchInput(e.target.value);console.log(e.target.value)}}/>
                 </div>
-                <div className="filters flex justify-center w-[50%] text-xl  gap-4">
+                <div className="filters flex justify-between items-center text-xl max-md:px-8  gap-8 ">
                     <div className="categoryFilter">
-                        <select name="category" value={selectInput}className="outline-1 px-2 py-1 bg-white  rounded-[10px]" onChange={(e)=>{setSelectInput(e.target.value);console.log(e.target.value)}}>
-                            <option value="">Category</option>
+                        <select name="category" value={selectInput}className="outline-0 px-4 max-md:px-2 py-4 bg-white  rounded-[10px]" onChange={(e)=>{setSelectInput(e.target.value);console.log(e.target.value)}}>
+                            <option value="" disabled>Category</option>
                             <option value="food" >Food</option>
                             <option value="travel">Travel</option>
                             <option value="entertainment">Entertainment</option>
+                            <option value="income"> Income </option>
+                            <option value="other"> Other </option>
                         </select>
                     </div>
                     <div className="Date">
-                        <input type="date" value={dateInput} className="outline-1 px-2 py-1 bg-white  rounded-[10px]"  onChange={(e)=>{setDateInput(e.target.value); console.log(e.target.value)}}/>
+                        <input type="date" value={dateInput} className="outline-0 px-2 py-4 bg-white  rounded-[10px]"  onChange={(e)=>{setDateInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                     <div className="amount ">
-                        <input type="number" value={amountInput} placeholder='Amount' className="outline-1  rounded-[10px] py-1 px-2 bg-white" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
+                        <input type="number" value={amountInput} placeholder='Amount' className="outline-0 rounded-[10px] py-4 px-4 max-md:px-2 bg-white" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                 </div>
-                <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex justify-between bg-black/35 text-white w-[90%] border">
-                    <div className="title ">
-                        <div className="heading text-2xl font-bold">
-                            Title
-                        </div>
-                        <ul className="items flex flex-col gap-1 text-xl pt-4">
-                            {/* <li>Salary</li>
-                            <li>Swiggy</li>
-                            <li>Petrol</li>
-                            <li>Profit</li>
-                            <li>Salary</li>
-                            <li>Swiggy</li>
-                            <li>Petrol</li>
-                            <li>Profit</li>                             */}
-                            {
-                                transactions.map((transaction)=>{
-                                    return <li key={transaction._id}>{transaction.title} </li>
-                                })
-                            }
-                        </ul>
+                
+                <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex flex-col gap-4 bg-black/35 text-white w-[90%] max-lg:w-[97%] max-md:w-[99%] border">
+                    <div className="header grid grid-cols-5 text-2xl font-bold">
+                        <div>Title</div>
+                        <div>Category</div>
+                        <div>Type</div>
+                        <div>Amount</div>
+                        <div>Date</div>
                     </div>
-                    <div className="title">
-                        <div className="heading text-2xl font-bold text-center">
-                            Category
-                        </div>
-                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
-                           {
-                                transactions.map((transaction)=>{
-                                    return <li key={transaction._id}>{transaction.category} </li>
-                                })
-                            }
-                        </ul>
-                    </div>
-                    <div className="title">
-                        <div className="heading text-2xl font-bold text-center">
-                            Type
-                        </div>
-                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
-                            {
-                                transactions.map((transaction)=>{
-                                    return <li key={transaction._id}>{transaction.type} </li>
-                                })
-                            }
-                        </ul>
-                    </div>
-                    <div className="title">
-                        <div className="heading text-2xl font-bold text-center">
-                            Amount
-                        </div>
-                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
-                            {
-                                transactions.map((transaction)=>{
-                                    return <li key={transaction._id}>{transaction.amount} </li>
-                                })
-                            }
-                        </ul>
-                    </div>
-                    <div className="title">
-                        <div className="heading text-2xl font-bold text-center">
-                            Date
-                        </div>
-                        <ul className="items flex flex-col gap-1 text-xl pt-4 text-center">
-                            {
-                                transactions.map((transaction)=>{
-                                    return <li key={transaction._id}>{new Date(transaction.date).toLocaleString('en-GB', {
-                                                day: '2-digit',
-                                                month: 'short',
-                                                year: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit'
-                                            })} </li>
-                                })
-                            }
-                        </ul>
+
+                    <div className="transactions-list w-full max-h-[280px] overflow-y-auto scrollbar-none">
+                        {transactions.map((transaction) => (
+                            
+                            transaction.title.toLowerCase().startsWith(searchInput.toLowerCase()) &&
+                            transaction.category.toLowerCase().startsWith(selectInput.toLowerCase()) &&
+                            transaction.date.startsWith(dateInput) &&
+                            transaction.amount.toString().startsWith(amountInput) &&
+                            <div
+                                key={transaction._id}
+                                className="grid grid-cols-5 py-1/2 text-xl"
+                            >
+                                <div>{transaction.title}</div>
+                                <div>{transaction.category}</div>
+                                <div>{transaction.type}</div>
+                                <div>{transaction.amount}</div>
+                                <div>
+                                    {new Date(transaction.date).toLocaleString("en-GB", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    })}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
+            
             </div>
             
             
