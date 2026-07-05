@@ -11,6 +11,7 @@ app.use(cors());
 
 app.use(express.json());
 
+// eslint-disable-next-line no-undef
 mongoose.connect(process.env.mongoId)
     .then(()=>{
         console.log('connected to DB');
@@ -41,7 +42,7 @@ const transactionSchema = new mongoose.Schema({
     },
     date: {
         type: Date, 
-        required: true
+        required:true
     },
     notes: {
         type: String,
@@ -50,7 +51,30 @@ const transactionSchema = new mongoose.Schema({
     
 })
 
+const holdingsSchema = new mongoose.Schema({
+    symbol:{
+        type:String,
+        required:true
+    },
+    currentPrice:{
+        type:Number,
+        required:true
+    },
+    quantity:{
+        type:Number,
+        required:true
+    },
+    averagePrice:{
+        type:Number,
+        required:true
+    }
+
+})
+
+
 const transactionModel = mongoose.model('transaction',transactionSchema);
+
+const holdingsModel = mongoose.model('holding',holdingsSchema);
 
 app.get('/',(req,res)=>{
     res.send('hello world');        
@@ -70,6 +94,15 @@ app.get('/transactions', async(req,res)=>{
     try{
         const transactions = await transactionModel.find();
         res.status(200).json(transactions);
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+})
+
+app.get('/holdings',async (req,res)=>{
+    try{
+        const holdings = await holdingsModel.find();
+        res.status(200).json(holdings);
     }catch(err){
         res.status(500).json({error:err.message});
     }

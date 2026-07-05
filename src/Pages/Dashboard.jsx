@@ -2,9 +2,27 @@
 import Navbar from '../Components/Shared/Navbar';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
-function Dashboard (){
+function Dashboard ({transactions, holdings}){
+    //net worth calculation
+    let income = 0;
+    let expenses = 0;
+    for(let i = 0; i < transactions.length; i++){
+        if(transactions[i].type === 'Income'){
+            income+=transactions[i].amount;
+        }else{
+            expenses+=transactions[i].amount;
+        }
+    }
+    const netWorth = income-expenses;
+    
+    //portfolio calculation
+    let portfolioValue = 0;
+    for(let i = 0; i < holdings.length; i++){
+        portfolioValue+= holdings[i].quantity * holdings[i].currentPrice;
+    }
+
     return (
-        <div className="dashboard pt-8 pb-8 xl:overflow-hidden m-0  ">
+        <div className="dashboard pt-8 xl:overflow-hidden m-0  ">
             <Navbar DashboardLogo={DashboardLogo} />
             <div className="dashboard-content flex flex-col items-center h-full ">
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex  justify-between max-lg:flex-col">
@@ -15,7 +33,7 @@ function Dashboard (){
                                     Net Worth
                                 </h1>
                                 <div className="amount">
-                                    $1,23,000
+                                    ₹{netWorth.toLocaleString("en-IN")}
                                 </div>
                             </div>
                             <div className="monthlySavings flex flex-col items-center mx-4 max-sm:my-4">
@@ -23,7 +41,7 @@ function Dashboard (){
                                     Monthly Savings
                                 </h1>
                                 <div className="amount">
-                                    $1,520
+                                    ₹{(income-expenses).toLocaleString("en-IN")}
                                 </div>
                             </div>
                             <div className="portfolioValue flex flex-col items-center ">
@@ -31,7 +49,7 @@ function Dashboard (){
                                     Portfolio Value
                                 </h1>
                                 <div className="amount">
-                                    $55,000
+                                    ₹{portfolioValue.toLocaleString("en-IN")}
                                 </div>
                             </div>
                         </div>
@@ -59,12 +77,26 @@ function Dashboard (){
                         Income vs expenditure chart.   
                     </div>
                 </div>
-                <div className="recentTransactions w-full px-8 pb-8">
-                    <div className=" w-full bg-black/35 border border-[374151] px-8 py-4 text-white rounded-[10px]">
-                        <h1 className="label font-bold text-xl">Recent Transactions</h1>
-                        <ul>
-                            <li>salary +20,000 </li>  
-                            <li>Food -500</li>
+                <div className="recentTransactions w-full px-8">
+                    <div className=" w-full bg-black/35 border border-[374151] px-8 py-2 text-white rounded-[10px]">
+                        <h1 className="label font-bold text-2xl mb-2">Recent Transactions</h1>
+                        <ul className=" gap-1/2 text-lg">
+                            {
+                                transactions.slice(0,2).map((transaction)=>{
+                                   return <div className="grid grid-cols-4 justify-between">
+                                            <span>{transaction.title} </span>
+                                            <span>{transaction.amount}</span>
+                                            <span>{transaction.category}</span>
+                                            <span>{new Date(transaction.date).toLocaleString("en-IN", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    })}</span>
+                                          </div>
+                                })
+                            }
                         </ul>
                     </div>
                 </div>

@@ -1,25 +1,23 @@
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import '../Dashboard.css';
 import Navbar from '../Components/Shared/Navbar.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import RotateYourPhone from '../assets/rotateYourPhone.mp4';
- function Transactions(){
+ function Transactions({transactions}) {
     const [searchInput, setSearchInput] = useState('');
     const [selectInput, setSelectInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [amountInput, setAmountInput] = useState('');
-    const [transactions,setTransactions] = useState([]);
+    // const [transactions,setTransactions] = useState([]);
 
-    useEffect(()=>{
-        async function getTransactions (){
-            const response = await  axios.get('http://localhost:5000/transactions');
-            setTransactions(response.data);
-        }
-        getTransactions();
-    },[])
-    
+    // useEffect(()=>{
+    //     async function getTransactions (){
+    //         const response = await  axios.get('http://localhost:5000/transactions');
+    //         setTransactions(response.data);
+    //     }
+    //     getTransactions();
+    // },[])
 
     return (
         <div className="dashboard pt-4  max-sm:pt-0">
@@ -57,7 +55,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                 </div>
                 
                 <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex flex-col gap-4 bg-black/35 text-white w-[90%] max-lg:w-[97%] max-md:w-[99%] border">
-                    <div className="header grid grid-cols-5 text-2xl font-bold">
+                    <div className="header grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] text-2xl font-bold">
                         <div>Title</div>
                         <div>Category</div>
                         <div>Type</div>
@@ -65,7 +63,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                         <div>Date</div>
                     </div>
 
-                    <div className="transactions-list w-full max-h-[280px] overflow-y-auto scrollbar-none">
+                    <div className="transactions-list w-full max-h-[280px] overflow-y-auto scrollbar scrollbar-thumb-[#0C161D] scrollbar-track-white  ">
                         {transactions.map((transaction) => (
                             
                             transaction.title.toLowerCase().startsWith(searchInput.toLowerCase()) &&
@@ -74,14 +72,14 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                             transaction.amount.toString().startsWith(amountInput) &&
                             <div
                                 key={transaction._id}
-                                className="grid grid-cols-5 py-1/2 text-xl"
+                                className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] py-1/2 text-xl"
                             >
                                 <div>{transaction.title}</div>
                                 <div>{transaction.category}</div>
                                 <div>{transaction.type}</div>
                                 <div>{transaction.amount}</div>
                                 <div>
-                                    {new Date(transaction.date).toLocaleString("en-GB", {
+                                    {new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",
                                         month: "short",
                                         year: "numeric",

@@ -1,4 +1,6 @@
 import {Routes, Route} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import axios from 'axios';
 import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
 import AssetDetailsPage from './Pages/AssetDetailsPage.jsx';
 import Portfolio from './Pages/Portfolio.jsx';
@@ -14,7 +16,20 @@ import './LoginPage.css';
 
 
 function App() {
-  
+  const [transactions,setTransactions] = useState([]);
+  const [holdings,setHoldings] = useState([]);
+  useEffect(()=>{
+      async function getTransactions (){
+          const response = await  axios.get('http://localhost:5000/transactions');
+          setTransactions(response.data);
+      }
+      async function getHoldings (){
+        const response = await axios.get('http://localhost:5000/holdings');
+        setHoldings(response.data);        
+      }
+      getTransactions();
+      getHoldings();
+  },[])
 
   return (
       <Routes>
@@ -22,9 +37,9 @@ function App() {
         <Route path="/login" element={<LoginPage mode="login"/>}/>   
         <Route path="/test" element={<Test/>}></Route>
         <Route path="/" element={<Navbar/>}></Route>
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/transactions" element={<Transactions/>} />
-        <Route path="/addTransactionsPage" element={<AddTransactionPage/>}></Route> 
+        <Route path="/dashboard" element={<Dashboard transactions={transactions} holdings={holdings}/>} />
+        <Route path="/transactions" element={<Transactions transactions={transactions}/>} />
+        <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions}/>}></Route> 
         <Route path="/portfolio" element={<Portfolio/>}></Route>  
         <Route path="/assetDetailsPage" element={<AssetDetailsPage/>}></Route>  
         <Route path="/aiinsights" element={<AiInsightsPage/>}></Route>    
