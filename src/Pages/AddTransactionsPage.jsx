@@ -25,7 +25,7 @@ function AddTransactionPage( {setTransactions}){
     }
 
     async function saveTransaction(){
-       const response = await axios.post('http://localhost:5000/addTransaction',{title:title,amount:amount,type:type,date:transactionDate,category:category,notes:notes});  
+       const response = await axios.post('http://localhost:5000/addTransaction',{title:title,amount:amount,type:type,category:category,notes:notes});  
        setTransactions(prevTransactions => [...prevTransactions, response.data]);     
     }
 
