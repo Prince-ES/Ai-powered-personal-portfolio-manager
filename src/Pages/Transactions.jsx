@@ -55,7 +55,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                 </div>
                 
                 <div className="allTransactionsAndSearchResult px-8 py-4 rounded-[10px] flex flex-col gap-4 bg-black/35 text-white w-[90%] max-lg:w-[97%] max-md:w-[99%] border">
-                    <div className="header grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] text-2xl font-bold">
+                    <div className="header grid grid-cols-[1.2fr_1fr_1fr_1fr_1fr] text-2xl font-bold">
                         <div>Title</div>
                         <div>Category</div>
                         <div>Type</div>
@@ -72,12 +72,12 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                             transaction.amount.toString().startsWith(amountInput) &&
                             <div
                                 key={transaction._id}
-                                className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] py-1/2 text-xl"
+                                className="grid grid-cols-[1.2fr_1fr_1fr_1fr_1fr] py-1/2 text-xl"
                             >
                                 <div>{transaction.title}</div>
                                 <div>{transaction.category}</div>
                                 <div>{transaction.type}</div>
-                                <div>{transaction.amount}</div>
+                                <div>₹ {transaction.amount}</div>
                                 <div>
                                     {new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",

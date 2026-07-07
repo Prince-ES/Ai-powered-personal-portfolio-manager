@@ -1,5 +1,6 @@
 // import dashboardBg from '../assets/DashboardBg.png';
 import Navbar from '../Components/Shared/Navbar';
+import Piechart from '../Components/Piechart'
 import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 function Dashboard ({transactions, holdings}){
@@ -24,7 +25,7 @@ function Dashboard ({transactions, holdings}){
     return (
         <div className="dashboard pt-8 xl:overflow-hidden m-0  ">
             <Navbar DashboardLogo={DashboardLogo} />
-            <div className="dashboard-content flex flex-col items-center h-full ">
+            <div className="dashboard-content  pb-8 flex flex-col items-center h-full ">
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex  justify-between max-lg:flex-col">
                     <div className="overviewAndInsights w-[49%] flex flex-col justify-between h-full max-lg:w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">
@@ -54,11 +55,9 @@ function Dashboard ({transactions, holdings}){
                             </div>
                         </div>
                         <div className="insightst w-full rounded-[10px] bg-black/35 border border-[374151] flex justify-between  text-white max-sm:flex-col max-sm:items-center">
-                            <div className="labelAndPiechart w-[50%] flex flex-col px-8 p-4 items-center max-sm:w-full">
+                            <div className="labelAndPiechart w-[50%] flex flex-col px-8 p-4 gap-4 items-center max-sm:w-full">
                                 <h1 className="label text-xl font-bold ">Category Breakdown Pie Chart</h1>
-                                <div className="piechart h-50 w-50 rounded-full bg-red-300 mt-4 ">
-
-                                </div>
+                                <Piechart transactions={transactions}/>
                             </div>
                             <div className="aiInsights w-[50%] px-8 py-4 max-sm:w-full max-sm:flex max-sm:items-center max-sm:flex-col">
                                 <h1 className="label text-xl font-bold ">Ai Insights</h1>
@@ -83,7 +82,7 @@ function Dashboard ({transactions, holdings}){
                         <ul className=" gap-1/2 text-lg">
                             {
                                 transactions.slice(0,2).map((transaction)=>{
-                                   return <div className="grid grid-cols-4 justify-between">
+                                   return <div className="grid grid-cols-4 justify-between" key={transaction._id}>
                                             <span>{transaction.title} </span>
                                             <span>{transaction.amount}</span>
                                             <span>{transaction.category}</span>
