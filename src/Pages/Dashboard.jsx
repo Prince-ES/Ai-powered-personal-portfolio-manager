@@ -1,6 +1,7 @@
 // import dashboardBg from '../assets/DashboardBg.png';
 import Navbar from '../Components/Shared/Navbar';
-import Piechart from '../Components/Piechart'
+import Piechart from '../Components/Piechart';
+import LineChart from '../Components/LineChart';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 function Dashboard ({transactions, holdings}){
@@ -8,7 +9,7 @@ function Dashboard ({transactions, holdings}){
     let income = 0;
     let expenses = 0;
     for(let i = 0; i < transactions.length; i++){
-        if(transactions[i].type === 'Income'){
+        if(transactions[i].type === 'income'){
             income+=transactions[i].amount;
         }else{
             expenses+=transactions[i].amount;
@@ -73,7 +74,9 @@ function Dashboard ({transactions, holdings}){
                         </div>
                     </div>
                     <div className="incomeExpChart w-[49%] min-h-full p-8  text-white bg-black/35 border border-[374151] rounded-[10px] max-lg:mt-8 max-lg:w-full">
-                        Income vs expenditure chart.   
+                        <div>
+                            <LineChart transactions={transactions}/>
+                        </div>  
                     </div>
                 </div>
                 <div className="recentTransactions w-full px-8">
