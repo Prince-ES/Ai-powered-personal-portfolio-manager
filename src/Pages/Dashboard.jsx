@@ -73,9 +73,10 @@ function Dashboard ({transactions, holdings}){
                             </div>
                         </div>
                     </div>
-                    <div className="incomeExpChart w-[49%] min-h-full p-8  text-white bg-black/35 border border-[374151] rounded-[10px] max-lg:mt-8 max-lg:w-full">
-                        <div>
-                            <LineChart transactions={transactions}/>
+                    <div className="incomeExpChart w-[49%] min-h-full p-8  text-white bg-black/35 border border-[374151] rounded-[10px] max-lg:mt-8 max-lg:w-full flex flex-col">
+                        <h1 className="label text-2xl font-bold mb-4 h-[10%]">Income vs Expenses</h1>
+                        <div className="chart w-full h-[90%] rounded-[10px]">
+                            <LineChart className="bg-white"transactions={transactions}/>
                         </div>  
                     </div>
                 </div>

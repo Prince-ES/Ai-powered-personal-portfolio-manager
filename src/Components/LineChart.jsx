@@ -62,15 +62,13 @@ function LineChart({transactions}){
         {
             label: "Income",
             data: income,
-            borderColor: "green",
-            backgroundColor: "rgba(0, 128, 0, 0.2)",
+            borderColor:"#07e000",
             tension: 0.3
         },
         {
             label: "Expenses",
             data: expenses,
             borderColor: "red",
-            backgroundColor: "rgba(255, 0, 0, 0.2)",
             tension: 0.3
         }
     ]
@@ -78,20 +76,40 @@ function LineChart({transactions}){
 
     const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
         legend: {
-            position: "top",
+            position: "bottom",
             labels: {
                 color: "white",
             },
         },
         title: {
             display: true,
-            text: "Income vs Expenses"
+            text: "Income vs Expenses",
+            color:"white"
         }
-    }
-};
-    return <Line data={data} options={options}/>
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: "white",
+            },
+            grid: {
+                color: "rgba(255,255,255,0.2)",
+            },
+        },
+        y: {
+            ticks: {
+                color: "white",
+            },
+            grid: {
+                color: "rgba(255,255,255,0.2)",
+            },
+        },
+    },
+    };
+    return <Line className="line-chart bg-[#0d1b2a]/75 h-full rounded-[10px]" data={data} options={options}/>
 }
 
 export default LineChart;

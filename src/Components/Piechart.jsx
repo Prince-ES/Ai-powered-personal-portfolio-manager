@@ -119,6 +119,7 @@ function Piechart({transactions}){
       title: {
         display: true,
         text: "expenses by Category",
+        color:"white"
       },
     },
   };
