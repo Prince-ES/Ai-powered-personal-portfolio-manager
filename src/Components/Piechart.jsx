@@ -20,46 +20,6 @@ function Piechart({transactions}){
         }
     }
 
-     let income = [];
-    let expenses=[];
-
-    const monthBasedTransactionsDistributions = new Map();
-
-    for(const transaction of transactions){
-      if(monthBasedTransactionsDistributions.has(new Date(transaction.date).toLocaleString("default",{month:"long"}))){
-
-        if(transaction.type === 'income'){
-          monthBasedTransactionsDistributions.get(new Date(transaction.date).toLocaleString("default",{month:"long"})).totalIncome+= transaction.amount;
-        }else{
-          monthBasedTransactionsDistributions.get(new Date(transaction.date).toLocaleString("default",{month:"long"})).totalExpenses+= transaction.amount;
-        } 
-      }
-      else{
-
-        if(transaction.type=== 'income'){
-            monthBasedTransactionsDistributions.set(new Date(transaction.date).toLocaleString("default",{month:"long"}), {
-              totalIncome: transaction.amount,
-              totalExpenses: 0,
-             })
-        }else{
-            monthBasedTransactionsDistributions.set(new Date(transaction.date).toLocaleString("default",{month:"long"}), {
-              totalIncome: 0,
-              totalExpenses: transaction.amount,
-            })
-        }
-      }
-    }
-
-    console.log(monthBasedTransactionsDistributions);
-    
-    for(const [key,value] of monthBasedTransactionsDistributions){
-      console.log(key);
-        income.push(value.totalIncome);
-        expenses.push(value.totalExpenses);
-    }
-
-    console.log(income,expenses);
-
     const labels = [];
     const chartData = [];
 
@@ -67,7 +27,7 @@ function Piechart({transactions}){
     for(const [key,value] of categoryBasedDistribution){
         if(value.type === 'expense'){
             labels.push(value.category);
-            chartData.push(value.total);
+            chartData.push(value.total.toFixed(2));
         }
     }
 
