@@ -55,17 +55,17 @@ function Portfolio({holdings}){
                     Portfolio
                 </div>
                 <div className="pageContent  flex flex-col  gap-4 px-8">
-                    <div className="overview w-full flex justify-between  max-md:px-2 gap-2 text-2xl text-white ">
+                    <div className="overview w-full flex justify-between  max-md:px-2 gap-2 text-xl text-white ">
                         <div className="investedAmount bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-4 py-2">
-                            <label htmlFor="" className="font-bold">Invested Amount</label>
+                            <label htmlFor="" className="font-bold text-2xl">Invested Amount</label>
                             <div className="amount">₹{Number(investedAmount.toFixed(2)).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
                         </div>
                         <div className="currentValue bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-4 py-2">
-                            <label htmlFor="" className="font-bold">Current Value</label>
+                            <label htmlFor="" className="font-bold text-2xl">Current Value</label>
                             <div className="amount">₹{Number(currentValue.toFixed(2)).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
                         </div>
                         <div className="investedAmount bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-8 py-2">
-                            <label htmlFor="" className="font-bold">Total P/L</label>
+                            <label htmlFor="" className="font-bold text-2xl">Total P/L</label>
                             <div className="amount">₹{pnl.toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
                         </div>
                     </div>

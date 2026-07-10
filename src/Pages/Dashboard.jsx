@@ -85,7 +85,7 @@ function Dashboard ({transactions, holdings}){
                         <h1 className="label font-bold text-2xl mb-2">Recent Transactions</h1>
                         <ul className=" gap-1/2 text-lg">
                             {
-                                transactions.slice(0,2).map((transaction)=>{
+                                [...transactions].reverse().slice(0,2).map((transaction)=>{
                                    return <div className="grid grid-cols-4 justify-between" key={transaction._id}>
                                             <span>{transaction.title} </span>
                                             <span>{transaction.amount}</span>
