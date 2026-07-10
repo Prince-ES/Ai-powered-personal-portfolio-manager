@@ -9,6 +9,25 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
     const [selectInput, setSelectInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [amountInput, setAmountInput] = useState('');
+    const [transactionType, setTransactionType] = useState('');
+
+    const categoryGrouping = new Map();
+
+    for(const transaction of transactions){
+        if(categoryGrouping.has(transaction.category)){
+            categoryGrouping.get(transaction.category);
+        }else{
+            categoryGrouping.set(transaction.category,{
+              category: transaction.category,  
+            })
+        }
+    }
+
+    const categories = [];
+    for(const [key,value] of categoryGrouping){
+        categories.push(key);
+        console.log(value);
+    }
     // const [transactions,setTransactions] = useState([]);
 
     // useEffect(()=>{
@@ -35,22 +54,29 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                 <div className="inputBox  w-full px-16 max-md:px-8">
                     <input type="text" value={searchInput} placeholder="Type to search by title..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" onChange={(e)=>{setSearchInput(e.target.value);console.log(e.target.value)}}/>
                 </div>
-                <div className="filters flex justify-between items-center text-xl max-md:px-8  gap-8 ">
+                <div className="filters flex justify-between items-center text-xl max-md:px-8  gap-8 max-lg:gap-4 max-md:gap-2 max-sm:gap-1">
                     <div className="categoryFilter">
-                        <select name="category" value={selectInput}className="outline-0 px-4 max-md:px-2 py-4 bg-white  rounded-[10px]" onChange={(e)=>{setSelectInput(e.target.value);console.log(e.target.value)}}>
+                        <select name="category" value={selectInput}className="outline-0 px-4 max-md:px-2 py-4 bg-white max-h-[250px] rounded-[10px]" onChange={(e)=>{setSelectInput(e.target.value);console.log(e.target.value)}}>
                             <option value="" disabled>Category</option>
+                            {categories.map((categoryOne)=>{
+                                return <option  key={categoryOne} value={categoryOne}>{categoryOne}</option>
+                            })}
+                            {/* <option value="" disabled>Category</option>
                             <option value="food" >Food</option>
                             <option value="travel">Travel</option>
                             <option value="entertainment">Entertainment</option>
                             <option value="income"> Income </option>
-                            <option value="other"> Other </option>
+                            <option value="other"> Other </option> */}
                         </select>
                     </div>
-                    <div className="Date">
-                        <input type="date" value={dateInput} className="outline-0 px-2 py-4 bg-white  rounded-[10px]"  onChange={(e)=>{setDateInput(e.target.value); console.log(e.target.value)}}/>
+                    <div className="type ">
+                        <input type="text" value={transactionType} placeholder='Type' className="outline-0 w-[200px] max-lg:w-[150px] rounded-[10px] py-4 px-4 max-lg:px-2 bg-white" onChange={(e)=>{setTransactionType(e.target.value)}}/>
                     </div>
                     <div className="amount ">
-                        <input type="number" value={amountInput} placeholder='Amount' className="outline-0 rounded-[10px] py-4 px-4 max-md:px-2 bg-white" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
+                        <input type="number" value={amountInput} placeholder='Amount' className="outline-0 rounded-[10px] py-4  w-[200px] max-lg:w-[150px] px-4 max-lg:px-2 bg-white" onChange={(e)=>{setAmountInput(e.target.value); console.log(e.target.value)}}/>
+                    </div>
+                    <div className="Date">
+                        <input type="date" value={dateInput} className="outline-0 px-2 py-4 bg-white w-[150px] rounded-[10px]"  onChange={(e)=>{setDateInput(e.target.value); console.log(e.target.value)}}/>
                     </div>
                 </div>
                 
@@ -70,6 +96,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                             transaction.category.toLowerCase().startsWith(selectInput.toLowerCase()) &&
                             transaction.date.startsWith(dateInput) &&
                             transaction.amount.toString().startsWith(amountInput) &&
+                            transaction.type.toLowerCase().startsWith(transactionType)&&
                             <div
                                 key={transaction._id}
                                 className="grid grid-cols-[1.2fr_1fr_1fr_1fr_1fr] py-1/2 text-xl"
