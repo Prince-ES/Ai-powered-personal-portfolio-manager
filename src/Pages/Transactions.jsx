@@ -77,7 +77,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                                 <div>{transaction.title}</div>
                                 <div>{transaction.category}</div>
                                 <div>{transaction.type}</div>
-                                <div>₹ {transaction.amount}</div>
+                                <div>₹ {(transaction.amount).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
                                 <div>
                                     {new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",

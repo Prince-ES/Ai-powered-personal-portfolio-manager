@@ -1,6 +1,7 @@
 
 import Navbar from '../Components/Shared/Navbar';
-import {useState} from 'react';
+import PortfolioPieChart from '../Components/PortfolioPieChart';
+// import {useState} from 'react';
 import {Link} from 'react-router-dom'
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
@@ -15,7 +16,35 @@ function Portfolio({holdings}){
         currentValue+= holding.currentPrice * holding.quantity;
     }
 
-        const pnl = currentValue-investedAmount;
+    const symbolBasedDistribution = new Map();
+
+    for(const holding of holdings){
+        let currentHoldingValue = holding.currentPrice* holding.quantity;
+        if(symbolBasedDistribution.has(holding.symbol)){
+            let getHolding = symbolBasedDistribution.get(holding.symbol);
+            let newAveragePriceTotal = holding.averagePrice * holding.quantity;
+            let currentAveragePriceTotal = getHolding.averagePrice * getHolding.quantity;
+            let commonAverage = (newAveragePriceTotal + currentAveragePriceTotal)/(getHolding.quantity + holding.quantity);
+            getHolding.totalAmount+= currentHoldingValue;
+            getHolding.averagePrice = commonAverage;
+            getHolding.currentPrice = holding.currentPrice;
+            getHolding.quantity+= holding.quantity;
+
+        }else{
+            symbolBasedDistribution.set(holding.symbol,{
+                totalAmount:currentHoldingValue,
+                symbol:holding.symbol,
+                currentPrice:holding.currentPrice,
+                quantity:holding.quantity,
+                averagePrice:holding.averagePrice,
+                id:holding._id
+            })
+        }
+    }
+
+    
+
+    const pnl = currentValue-investedAmount;
     return (
         <div className="dashboard pt-8 max-sm:pt-0">
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
@@ -41,37 +70,39 @@ function Portfolio({holdings}){
                         </div>
                     </div>
                     <div className="charts flex max-lg:flex-col max-lg:gap-4 justify-between max-lg:w-full">
-                        <div className="portfolioCalc bg-black/35 w-[49%] max-lg:w-full flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
+                        <div className="portfolioCalc bg-black/35 w-[38%] max-lg:w-full flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
                             <div className="heading text-2xl font-bold text-white self-start max-lg:w-full max-lg:text-center ">Portfolio Calculation</div>
-                            <div className="pieChart h-[250px] w-[250px] rounded-full bg-red-300"></div>
+                            <div className="pieChart h-[350px] w-[350px] w-full flex items-center justify-center">
+                                <PortfolioPieChart holdings={holdings} symbolBasedDistribution={symbolBasedDistribution}/>
+                            </div>
                         </div>
-                        <div className="portfolioCalc bg-black/35 w-[49%] max-lg:w-full flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
+                        <div className="portfolioCalc bg-black/35 w-[60%] max-lg:w-full flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
                             <div className="heading text-2xl font-bold text-white self-start">Price Chart</div>
                             <div className="pieChart h-full w-full border border-white"></div>
                         </div>
                     </div>
                     
                     <div className="border border-white rounded-[10px] w-full bg-black/35 text-white p-6 flex flex-col gap-4">
-                        <div className="grid grid-cols-5 pr-[15px]">
+                        <div className="grid grid-cols-5 pr-[15px] text-2xl font-bold">
                             
-                            <div className="text-xl font-bold">Asset</div>
-                            <div className="text-xl font-bold">Qty</div>
-                            <div className="text-xl font-bold">Avg Price</div>
-                            <div className="text-xl font-bold">CMP</div>
-                            <div className="text-xl font-bold">Profit/Loss</div>
+                            <div className="">Asset</div>
+                            <div className="">Qty</div>
+                            <div className="">Avg Price</div>
+                            <div className="">CMP</div>
+                            <div className="">Profit/Loss</div>
                          </div> 
-                         <div className="items max-h-[240px] overflow-y-scroll">
+                         <div className="items  max-h-[280px] overflow-y-scroll">
                             {
-                                holdings.map((holding)=>{
-                                    let pnlColor = holding.currentPrice * holding.quantity - holding.averagePrice * holding.quantity > 0 ? true : false;
-                                    return <div className="grid grid-cols-5 gap-y-1">
+                                [...symbolBasedDistribution.entries()].map(([key,value])=>{
+                                    let pnlColor = value.currentPrice * value.quantity - value.averagePrice * value.quantity > 0 ? true : false;
+                                    return <div className="grid grid-cols-5 gap-y-1 text-xl" key={value.id}>
                                             <Link to="/assetDetailsPage" className="hover:underline">
-                                                {holding.symbol}
+                                                {key}
                                             </Link>
-                                            <span>{holding.quantity}</span>
-                                            <span>{holding.averagePrice.toLocaleString("en-In",{minimumFractionDigits:2})}</span>
-                                            <span>{holding.currentPrice.toLocaleString("en-In",{minimumFractionDigits:2})}</span>
-                                            <span className={`${pnlColor ? "text-green-400": "text-red-400"}`}>₹ {(holding.currentPrice * holding.quantity - holding.averagePrice * holding.quantity).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
+                                            <span>{value.quantity}</span>
+                                            <span>₹ {value.averagePrice.toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
+                                            <span>₹ {value.currentPrice.toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
+                                            <span className={`${pnlColor ? "text-green-400": "text-red-400"}`}>₹ {(value.currentPrice * value.quantity - value.averagePrice * value.quantity).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
                                     </div>
                                 })
                             }
