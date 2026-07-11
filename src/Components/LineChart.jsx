@@ -43,7 +43,6 @@ function LineChart({transactions}){
       }
     }
 
-    console.log(monthBasedTransactionsDistributions);
 
     const labels = [];
     
@@ -53,7 +52,6 @@ function LineChart({transactions}){
         expenses.push(value.totalExpenses);
     }
 
-    console.log(income,expenses);
     
 
     const data = {

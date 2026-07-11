@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import {useState, useEffect, useRef} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import Navbar from '../Components/Shared/Navbar';
@@ -27,7 +26,7 @@ function Index (){
     },[])
     
     return (
-        <div className="dashboard pt-8 fixed  m-0 ">
+        <div className="dashboard pt-4 fixed  m-0 ">
             <Navbar DashboardLogo={DashboardLogo} indexPage="indexPage"/>
             <div className="content flex justify-between items-center min-w-screen p-8 max-lg:px-16 max-lg:flex-col-reverse max-lg:gap-8 gap-8">
                 <div className=" relative text-white text-5xl max-lg:text-5xl z-3 w-1/2 max-lg:w-full bg-black/25 border rounded-[10px] py-16 px-8 ml-12 max-lg:ml-0 max-lg:py-8 max-lg:px-8">

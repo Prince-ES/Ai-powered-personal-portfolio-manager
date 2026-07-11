@@ -8,13 +8,12 @@ function PortfolioPieChart ({symbolBasedDistribution}){
     let chartData = [];
     let labelsData = [];
 
+    // eslint-disable-next-line no-unused-vars
     for(const [key,value] of symbolBasedDistribution){
-        console.log(key);
         chartData.push(value.totalAmount);
         labelsData.push(value.symbol);
     }
 
-    console.log(chartData);
 
     const colors = [
         "#4CAF50",
@@ -48,6 +47,7 @@ function PortfolioPieChart ({symbolBasedDistribution}){
 
     const options = {
     responsive: true,
+    maintainAspectRatio:false,
     layout:{
       padding:{
         right:20,

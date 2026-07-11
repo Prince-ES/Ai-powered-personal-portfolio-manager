@@ -1,13 +1,18 @@
 
 import Navbar from '../Components/Shared/Navbar';
 import PortfolioPieChart from '../Components/PortfolioPieChart';
+import PriceChartAAPL from '../Components/PriceChartAAPL';
 // import {useState} from 'react';
 import {Link} from 'react-router-dom'
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 import RotateYourPhone from '../assets/rotateYourPhone.mp4'
 
 function Portfolio({holdings}){
+
+    const [chartData,setChartData] = useState([]);
     let investedAmount = 0;//total of all the symbol's avg * quantity
     let currentValue = 0;//total of all symbol's current price * quantity
     
@@ -15,6 +20,8 @@ function Portfolio({holdings}){
         investedAmount+= holding.averagePrice * holding.quantity;//prices of buying could be diff therefore average.
         currentValue+= holding.currentPrice * holding.quantity;
     }
+
+    const pnl = currentValue-investedAmount;
 
     const symbolBasedDistribution = new Map();
 
@@ -42,15 +49,26 @@ function Portfolio({holdings}){
         }
     }
 
-    
+    useEffect(()=>{
+        
+        async function getChartData (){
+            const response = await axios.get('http://localhost:5000/PriceChartData');
+            setChartData(response.data.values);
+            console.log('printed');
+            
+        }
+        getChartData();
+        
+        const intervalId = setInterval(getChartData,60000);
+        return ()=>{clearInterval(intervalId)};
+    },[])
 
-    const pnl = currentValue-investedAmount;
     return (
-        <div className="dashboard pt-8 max-sm:pt-0">
+        <div className="dashboard pt-4 max-sm:pt-0">
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
             
             <Navbar className="max-sm:hidden" DashboardLogo={DashboardLogo}/>
-            <div className="max-sm:hidden content pt-8 pb-8 flex flex-col relative z-3">
+            <div className="max-sm:hidden content pt-4 pb-4 flex flex-col relative z-3">
                 <div className="pageTitle w-full mb-4 text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
                     Portfolio
                 </div>
@@ -78,7 +96,9 @@ function Portfolio({holdings}){
                         </div>
                         <div className="portfolioCalc bg-black/35 w-[60%] max-lg:w-full flex flex-col items-center justify-center gap-4 border border-white rounded-[10px] pb-4 pt-2 px-4">
                             <div className="heading text-2xl font-bold text-white self-start">Price Chart</div>
-                            <div className="pieChart h-full w-full border border-white"></div>
+                            <div className="pieChart h-full w-full border bg-white border-white">
+                                <PriceChartAAPL chartData={chartData}/>
+                            </div>
                         </div>
                     </div>
                     

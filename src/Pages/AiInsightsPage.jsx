@@ -5,7 +5,7 @@ import '../Dashboard.css';
 
 function AiInsightsPage (){
     return (
-        <div className="dashboard pt-8">
+        <div className="dashboard pt-4">
             <Navbar DashboardLogo={DashboardLogo}/>
             <div className="content flex flex-col items-center gap-8 pt-8 relative z-3">
                 <div className="pageTitle text-3xl font-bold text-white w-full max-md:text-center border-y border-white px-8 py-4 bg-black/35">

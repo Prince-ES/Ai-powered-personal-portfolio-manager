@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import axios from 'axios';
 
 
 const app = express();
@@ -72,6 +73,9 @@ const holdingsSchema = new mongoose.Schema({
 })
 
 
+
+
+
 const transactionModel = mongoose.model('transaction',transactionSchema);
 
 const holdingsModel = mongoose.model('holding',holdingsSchema);
@@ -105,5 +109,18 @@ app.get('/holdings',async (req,res)=>{
         res.status(200).json(holdings);
     }catch(err){
         res.status(500).json({error:err.message});
+    }
+})
+
+app.get('/PriceChartData', async(req,res)=>{
+    try{
+         async function getChart (){
+        // eslint-disable-next-line no-undef
+            const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=AAPL&interval=1day&apikey=${process.env.apiKey}`);
+            res.status(200).json(response.data);//sending just data is giving error;
+        }
+        getChart();
+    }catch(err){
+        res.status(500).json({errro:err.message});
     }
 })

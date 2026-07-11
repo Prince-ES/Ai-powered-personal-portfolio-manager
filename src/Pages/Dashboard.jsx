@@ -24,9 +24,9 @@ function Dashboard ({transactions, holdings}){
     }
 
     return (
-        <div className="dashboard pt-8 xl:overflow-hidden m-0  ">
+        <div className="dashboard pt-4 xl:overflow-hidden m-0  ">
             <Navbar DashboardLogo={DashboardLogo} />
-            <div className="dashboard-content  pb-8 flex flex-col items-center h-full ">
+            <div className="dashboard-content  pb-4 flex flex-col items-center h-full ">
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex  justify-between max-lg:flex-col">
                     <div className="overviewAndInsights w-[49%] flex flex-col justify-between h-full max-lg:w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">
@@ -88,7 +88,7 @@ function Dashboard ({transactions, holdings}){
                                 [...transactions].reverse().slice(0,2).map((transaction)=>{
                                    return <div className="grid grid-cols-4 justify-between" key={transaction._id}>
                                             <span>{transaction.title} </span>
-                                            <span>{transaction.amount}</span>
+                                            <span>₹ {transaction.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                                             <span>{transaction.category}</span>
                                             <span>{new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",
