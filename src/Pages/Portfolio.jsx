@@ -5,7 +5,7 @@ import PriceChartAAPL from '../Components/PriceChartAAPL';
 // import {useState} from 'react';
 import {Link} from 'react-router-dom'
 import {useState, useEffect} from 'react';
-import axios from 'axios';
+import { getPriceChartData } from '../apiCall/getPriceChartData';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 import RotateYourPhone from '../assets/rotateYourPhone.mp4'
@@ -52,14 +52,12 @@ function Portfolio({holdings}){
     useEffect(()=>{
         
         async function getChartData (){
-            const response = await axios.get('http://localhost:5000/PriceChartData');
-            setChartData(response.data.values);
-            console.log('printed');
-            
+            const response = await getPriceChartData('MSFT');
+            setChartData(response);
         }
         getChartData();
         
-        const intervalId = setInterval(getChartData,60000);
+        const intervalId = setInterval(getChartData,60000*60);
         return ()=>{clearInterval(intervalId)};
     },[])
 
@@ -116,7 +114,7 @@ function Portfolio({holdings}){
                                 [...symbolBasedDistribution.entries()].map(([key,value])=>{
                                     let pnlColor = value.currentPrice * value.quantity - value.averagePrice * value.quantity > 0 ? true : false;
                                     return <div className="grid grid-cols-5 gap-y-1 text-xl" key={value.id}>
-                                            <Link to="/assetDetailsPage" className="hover:underline">
+                                            <Link to="/assetDetailsPage/AXISBANK" className="hover:underline">
                                                 {key}
                                             </Link>
                                             <span>{value.quantity}</span>

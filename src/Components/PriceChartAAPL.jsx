@@ -13,7 +13,17 @@ ChartJS.register(
 );
 
 function PriceChartAAPL ({chartData}){
-    const priceChartData = [...chartData].reverse().map((item)=>{
+
+
+    if (!chartData || chartData.length === 0) {
+        return (
+        <div className="flex justify-center items-center text-2xl w-full h-full bg-white" >
+            Loading chart...
+        </div>
+        );
+    }
+
+    const priceChartData = [...chartData.values].reverse().map((item)=>{
        return { x: new Date(item.datetime),
         o: Number(item.open),
         h: Number(item.high),
@@ -22,12 +32,10 @@ function PriceChartAAPL ({chartData}){
        }
     })
 
-    console.log(priceChartData);
-
     const data = {
         datasets:[
             {
-                label:"AAPL",
+                label:chartData.meta.symbol,
                 data: priceChartData,
                 barThickness:6,
                 maxBarThickness:6

@@ -72,10 +72,6 @@ const holdingsSchema = new mongoose.Schema({
 
 })
 
-
-
-
-
 const transactionModel = mongoose.model('transaction',transactionSchema);
 
 const holdingsModel = mongoose.model('holding',holdingsSchema);
@@ -87,7 +83,6 @@ app.get('/',(req,res)=>{
 app.post('/addTransaction', async(req,res)=>{
     try {
         const transaction = await transactionModel.create(req.body);
-
         res.status(200).json(transaction);
     }catch (err){
         res.status(500).json({error:err.message});
@@ -112,15 +107,17 @@ app.get('/holdings',async (req,res)=>{
     }
 })
 
-app.get('/PriceChartData', async(req,res)=>{
+app.post('/PriceChartData', async(req,res)=>{    
     try{
+        const {symbol} = req.body;
+        console.log(symbol);
          async function getChart (){
         // eslint-disable-next-line no-undef
-            const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=AAPL&interval=1day&apikey=${process.env.apiKey}`);
-            res.status(200).json(response.data);//sending just data is giving error;
+            const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=${symbol}&interval=1day&apikey=${process.env.apiKey}`);
+            res.status(200).json(response.data);
         }
         getChart();
     }catch(err){
-        res.status(500).json({errro:err.message});
+        res.status(500).json({error:err.message});
     }
 })

@@ -47,12 +47,6 @@ function PortfolioPieChart ({symbolBasedDistribution}){
 
     const options = {
     responsive: true,
-    maintainAspectRatio:false,
-    layout:{
-      padding:{
-        right:20,
-      }
-    },
     plugins: {
       legend: {
         position: "bottom",
