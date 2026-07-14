@@ -57,3 +57,13 @@
 /* .bwGradientText{
   -webkit-text-stroke: 1px white;
 } */
+
+.gradientTitleIndex{
+  background:linear-gradient(
+    90deg,
+    white,white,white,gray,gray,gray,black,
+    rgba(0,0,0,1)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
