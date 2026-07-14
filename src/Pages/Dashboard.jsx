@@ -25,8 +25,15 @@ function Dashboard ({transactions, holdings}){
 
     return (
         <div className="dashboard pt-4 xl:overflow-hidden m-0  ">
-            <Navbar DashboardLogo={DashboardLogo} />
-            <div className="dashboard-content  pb-4 flex flex-col items-center h-full ">
+            <Navbar className="fixed w-full z-4" DashboardLogo={DashboardLogo} />
+            <div className="dashboard-content  pb-4 flex flex-col relative z-3  h-full ">
+                <div className="h-screen w-full flex flex-col items-center justify-center">
+                    <div className="text-white p-8  flex flex-col items-center justify-center transform translate-y-[-13%] gap-16">
+                        <h1 className="gradientTitle text-8xl font-bold text-center">Your <span className='bwGradientText'>Financial</span> Dashboard</h1>
+                        <h2 className="text-5xl font-bold text-center">Track your net worth, monitor spending, review investments, and uncover insights—all in one place.</h2>
+                    </div>
+                </div>
+                <div className="exampleData text-4xl font-bold text-white text-left pl-8">Example Data</div>
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex  justify-between max-lg:flex-col">
                     <div className="overviewAndInsights w-[49%] flex flex-col justify-between h-full max-lg:w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">

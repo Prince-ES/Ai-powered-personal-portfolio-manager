@@ -42,3 +42,18 @@
     background-position: 400%;
   }
 }
+
+/*dashboard h1*/
+.gradientTitle{
+  background:linear-gradient(
+    90deg,
+    white,gray,gray,black,
+    rgba(0,0,0,1)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* .bwGradientText{
+  -webkit-text-stroke: 1px white;
+} */
