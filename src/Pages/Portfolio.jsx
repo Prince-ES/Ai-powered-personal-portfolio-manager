@@ -65,11 +65,18 @@ function Portfolio({holdings}){
         <div className="dashboard pt-4 max-sm:pt-0">
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
             
-            <Navbar className="max-sm:hidden" DashboardLogo={DashboardLogo}/>
-            <div className="max-sm:hidden content pt-4 pb-4 flex flex-col relative z-3">
-                <div className="pageTitle w-full mb-4 text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
-                    Portfolio
+            <Navbar className="max-sm:hidden fixed w-full z-4" DashboardLogo={DashboardLogo}/>
+            <div className="max-sm:hidden content pt-4 pb-4 flex flex-col relative z-3 gap-8">
+                <div className="h-screen w-full flex flex-col items-center justify-center">
+                    <div className="text-white p-8  flex flex-col items-center justify-center transform translate-y-[-13%] gap-16">
+                        <h1 className="gradientTitle text-8xl font-bold text-center">Investment Portfolio</h1>
+                        <h2 className="text-5xl font-bold text-center">Monitor your holdings, track performance, analyze allocation, and discover opportunities to strengthen your portfolio.</h2>
+                    </div>
                 </div>
+                <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
+                    Example Portfolio
+                </div>
+                {/* <div className="exampleData text-4xl font-bold text-white text-left pl-8">Example Data</div> */}
                 <div className="pageContent  flex flex-col  gap-4 px-8">
                     <div className="overview w-full flex justify-between  max-md:px-2 gap-2 text-xl text-white ">
                         <div className="investedAmount bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-4 py-2">
