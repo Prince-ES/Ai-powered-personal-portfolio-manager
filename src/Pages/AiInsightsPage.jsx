@@ -14,7 +14,7 @@ function AiInsightsPage ({transactions}){
 
     for(const transaction of transactions){
         if(new Date(transaction.date).getMonth() === new Date().getMonth()-1){
-            prevMonthTransactions.push(transaction);
+            prevMonthTransactions.push(transaction);    
         }
         if(new Date(transaction.date).getMonth() ===new Date().getMonth()-2){
             monthBeforePrevTransactions.push(transaction);
@@ -57,8 +57,7 @@ function AiInsightsPage ({transactions}){
                 prevMonthCategoryDistribution,
                 monthBeforePrevCategoryDistribution
             });
-            setAnalysis(response);
-            console.log(response);
+            setAnalysis(response.data);
     }
 
     useEffect(()=>{
@@ -76,7 +75,7 @@ function AiInsightsPage ({transactions}){
                     <div className="heading text-2xl font-bold">This Month Analysis</div>
                     <div className="text-lg flex flex-col gap-1 [&_ol]:list-decimal [&_ol]:mb-4 [&_ol]:ml-10 [&_ul]:list-disc  [&_ul]:mb-4 [&_ul]:ml-10">
                         <ReactMarkdown >
-                            {analysis.data}
+                            {analysis ? analysis : "Loading..."}
                         </ReactMarkdown>
                     </div>
 
