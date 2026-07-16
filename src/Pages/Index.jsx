@@ -28,14 +28,14 @@ function Index (){
     return (
         <div className="dashboard pt-4 fixed  m-0 ">
             <Navbar className="fixed w-full z-4" DashboardLogo={DashboardLogo} indexPage="indexPage"/>
-            <div className="content flex flex-col justify-between items-center min-w-screen p-8 max-lg:px-16 max-lg:flex-col-reverse max-lg:gap-8 gap-8 relative z-3">
+            <div className="content flex flex-col justify-between items-center min-w-screen p-8 max-lg:px-16 max-lg:flex-col max-lg:gap-8 gap-8 relative z-3">
                 <div className="h-screen w-full flex flex-col items-center justify-center">
                     <div className="text-white p-8  flex flex-col items-center justify-center transform translate-y-[-13%] gap-16">
                         <h1 className="gradientTitleIndex text-8xl font-bold text-center">Build Wealth with Confidence</h1>
                         <h2 className="text-5xl font-bold text-center">Manage your income, expenses, investments, and financial goals from one intelligent dashboard powered by AI.</h2>
                     </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex max-lg:flex-col-reverse items-center gap-8">
                     <div className=" text-white text-5xl max-lg:text-5xl w-1/2 max-lg:w-full bg-black/25 border rounded-[10px] py-16 px-8 ml-12 max-lg:ml-0 max-lg:py-8 max-lg:px-8">
                         <h1 className="font-bold mb-4">
                             Track - Analyze - Grow

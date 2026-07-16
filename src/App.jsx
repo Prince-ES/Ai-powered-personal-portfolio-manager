@@ -42,7 +42,7 @@ function App() {
         <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions}/>}></Route> 
         <Route path="/portfolio" element={<Portfolio holdings={holdings}/>}></Route>  
         <Route path="/assetDetailsPage/:id" element={<AssetDetailsPage holdings={holdings}/>}></Route>  
-        <Route path="/aiinsights" element={<AiInsightsPage/>}></Route>    
+        <Route path="/aiinsights" element={<AiInsightsPage transactions={transactions}/>}></Route>    
         <Route path="/settings" element={<Settings/>}></Route>  
       </Routes>
     
