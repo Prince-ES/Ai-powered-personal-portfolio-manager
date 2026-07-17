@@ -11,6 +11,7 @@ function AiInsightsPage ({transactions}){
 
     const prevMonthTransactions = [];
     const monthBeforePrevTransactions = [];
+    console.log(transactions);
 
     for(const transaction of transactions){
         if(new Date(transaction.date).getMonth() === new Date().getMonth()-1){
@@ -52,18 +53,22 @@ function AiInsightsPage ({transactions}){
     // createDataArray(prevMonthCategoryDistribution,prevMonthData);
     // createDataArray(monthBeforePrevCategoryDistribution, monthBeforePrevData);
 
+    // console.log(prevMonthData);
+    // console.log(monthBeforePrevData);
+
     async function getAnalysis(){
             const response =await axios.post('http://localhost:5000/getAiAnalysis',{
-                prevMonthCategoryDistribution,
-                monthBeforePrevCategoryDistribution
+                data1:[...prevMonthCategoryDistribution.entries()],
+                data2:[...monthBeforePrevCategoryDistribution.entries()],
             });
+            console.log("sedind",[...prevMonthCategoryDistribution.entries()],[...monthBeforePrevCategoryDistribution.entries()]);
             setAnalysis(response.data);
     }
 
     useEffect(()=>{
         // eslint-disable-next-line
-        getAnalysis();
-    },[]);
+        if(transactions.length != 0)getAnalysis();
+    },[transactions]);
     return (
         <div className="dashboard pt-4">
             <Navbar DashboardLogo={DashboardLogo}/>

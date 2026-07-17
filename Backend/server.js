@@ -152,7 +152,8 @@ app.post('/getAiAnalysis', async(req,res)=>{
     try{
         // eslint-disable-next-line no-undef
         const aiApiKey = process.env.groqApiKey;
-        const {prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution} = req.body;
+        const {data1, data2} = req.body;
+        console.log(data1,data2);
 
         const response = await axios.post("https://api.groq.com/openai/v1/chat/completions",{
             model:"llama-3.1-8b-instant",
@@ -182,7 +183,7 @@ app.post('/getAiAnalysis', async(req,res)=>{
                         `
             },{
                 role:'user',
-                content:JSON.stringify({prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution})
+                content:JSON.stringify({data1, data2})
             }]
             },
             {
