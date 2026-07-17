@@ -153,13 +153,15 @@ app.post('/getAiAnalysis', async(req,res)=>{
         // eslint-disable-next-line no-undef
         const aiApiKey = process.env.groqApiKey;
         const {data1, data2} = req.body;
-        console.log(data1,data2);
+        const {type} = req.body;
 
-        const response = await axios.post("https://api.groq.com/openai/v1/chat/completions",{
-            model:"llama-3.1-8b-instant",
-            messages:[{
-                role:'system',
-                content:`
+        const prompts = {
+                        dashboard: `
+                            You are a financial advisor.
+                            you are given two monhts expenses. just compare and
+                            Give a short summary in bullet 2-3 points (changes in %).
+                        `,
+                        detailed: `
                         You are a personal financial advisor.
 
                         Analyze the user's spending data from last two months data.
@@ -177,7 +179,17 @@ app.post('/getAiAnalysis', async(req,res)=>{
                         suggestions should include spending Summary, positive changes, areas of concern, and actionable suggestions for the user to improve their financial health.
 
                         Keep the response concise and easy to read.
-                        `
+                        `,
+        };
+        console.log(data1,data2);
+        console.log(type === 'dashboard'? prompts.dashboard : prompts.detailed);
+
+        const response = await axios.post("https://api.groq.com/openai/v1/chat/completions",{
+            model:"llama-3.1-8b-instant",
+            messages:[{
+                role:'system',
+                content: type === 'dashboard'? prompts.dashboard : prompts.detailed,
+                        
             },{
                 role:'user',
                 content:JSON.stringify({data1, data2})

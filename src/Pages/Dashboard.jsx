@@ -2,10 +2,15 @@
 import Navbar from '../Components/Shared/Navbar';
 import Piechart from '../Components/Piechart';
 import LineChart from '../Components/LineChart';
+import ReactMarkdown from 'react-markdown';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 import '../Dashboard.css';
 import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting';
 import DashboardLogo from '../assets/DashboardLogo.svg';
-function Dashboard ({transactions, holdings}){
+function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
+
+    const [analysis, setAnalysis] = useState('');
     //net worth calculation
     let income = 0;
     let expenses = 0;
@@ -24,6 +29,39 @@ function Dashboard ({transactions, holdings}){
         portfolioValue+= holdings[i].quantity * holdings[i].currentPrice;
     }
 
+    let monthdata1 = [];
+    let monthdata2 = [];
+
+    // eslint-disable-next-line no-unused-vars
+    for(const [key,value] of prevMonthCategoryDistribution){
+        if(value.type === 'expense'){
+            monthdata1.push([key,value]);
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    for(const [key,value] of monthBeforePrevCategoryDistribution){
+        if(value.type === 'expense'){
+            monthdata2.push([key,value]);
+            console.log(value.type)
+        }
+    }
+
+    async function getAnalysis(){
+            const response =await axios.post('http://localhost:5000/getAiAnalysis',{
+                data1:monthdata1,
+                data2:monthdata2,
+                type:'dashboard',
+            });
+            console.log("seding",monthdata1, monthdata2);
+            setAnalysis(response.data);
+    }
+
+    useEffect(()=>{
+        // eslint-disable-next-line
+        if(transactions.length != 0)getAnalysis();
+    },[transactions]);
+
     return (
         <div className="dashboard pt-4 xl:overflow-hidden m-0  ">
             <Navbar className="fixed w-full z-4" DashboardLogo={DashboardLogo} />
@@ -35,8 +73,8 @@ function Dashboard ({transactions, holdings}){
                     </div>
                 </div>
                 <div className="exampleData text-4xl font-bold text-white text-left pl-8">Example Data</div>
-                <div className="summaryCards w-full px-8 pt-8 pb-8 flex  justify-between max-lg:flex-col">
-                    <div className="overviewAndInsights w-[49%] flex flex-col justify-between h-full max-lg:w-full">
+                <div className="summaryCards w-full px-8 pt-8 pb-8 flex justify-between flex-col gap-8">
+                    <div className="overviewAndInsights  flex flex-col justify-between h-full w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">
                             <div className="netWorth flex flex-col justify-center items-center">
                                 <h1 className="label font-bold">
@@ -63,25 +101,23 @@ function Dashboard ({transactions, holdings}){
                                 </div>
                             </div>
                         </div>
-                        <div className="insightst w-full rounded-[10px] bg-black/35 border border-[374151] flex justify-between  text-white max-sm:flex-col max-sm:items-center">
-                            <div className="labelAndPiechart w-[50%] flex flex-col px-8 p-4 gap-4 items-center max-sm:w-full">
+                        <div className="insightst w-full rounded-[10px] bg-black/35 border border-[374151] flex justify-between  text-white max-lg:flex-col max-sm:items-center">
+                            <div className="labelAndPiechart w-[40%] max-lg:w-full flex flex-col px-8 p-4 gap-4 items-center max-sm:w-full">
                                 <h1 className="label text-xl font-bold ">Category Breakdown Pie Chart</h1>
                                 <Piechart transactions={transactions}/>
                             </div>
-                            <div className="aiInsights w-[50%] px-8 py-4 max-sm:w-full max-sm:flex max-sm:items-center max-sm:flex-col">
+                            <div className="aiInsights w-[60%] max-lg:w-full px-8 py-4 max-sm:w-full max-sm:flex max-sm:items-center max-sm:flex-col">
                                 <h1 className="label text-xl font-bold ">Ai Insights</h1>
-                                <ol className="mt-4 ">
-                                    <li>Food speding increased by 20%...</li>
-                                    <li className="mt-1">Savings dropped 10%...</li>
-                                    <li className="mt-1">Food speding increased by 40%...</li>
-                                    <li className="mt-1">Savings dropped 10%...</li>
-                                </ol>
-                                
+                                <div className="text-lg flex flex-col gap-1 [&_ol]:list-decimal [&_ol]:mb-4 [&_ol]:ml-10 [&_ul]:list-disc  [&_ul]:mb-4 [&_ul]:ml-10">
+                                    <ReactMarkdown >
+                                        {analysis ? analysis : "Loading..."}
+                                    </ReactMarkdown>
+                                </div>                           
 
                             </div>
                         </div>
                     </div>
-                    <div className="incomeExpChart w-[49%] min-h-full p-8  text-white bg-black/35 border border-[374151] rounded-[10px] max-lg:mt-8 max-lg:w-full flex flex-col">
+                    <div className="incomeExpChart w-full h-[500px] p-8  text-white bg-black/35 border border-[374151] rounded-[10px] max-xl:mt-8  flex flex-col">
                         <h1 className="label text-2xl font-bold mb-4 h-[10%]">Income vs Expenses</h1>
                         <div className="chart w-full h-[90%] rounded-[10px]">
                             <LineChart className="bg-white"transactions={transactions}/>

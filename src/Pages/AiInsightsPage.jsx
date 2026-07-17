@@ -5,41 +5,11 @@ import axios from 'axios';
 import DashboardLogo from '../assets/dashboardLogo.svg';
 import '../Dashboard.css';
 
-function AiInsightsPage ({transactions}){
+function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
     const [analysis, setAnalysis] = useState('');
 
 
-    const prevMonthTransactions = [];
-    const monthBeforePrevTransactions = [];
-    console.log(transactions);
 
-    for(const transaction of transactions){
-        if(new Date(transaction.date).getMonth() === new Date().getMonth()-1){
-            prevMonthTransactions.push(transaction);    
-        }
-        if(new Date(transaction.date).getMonth() ===new Date().getMonth()-2){
-            monthBeforePrevTransactions.push(transaction);
-        }
-    }
-
-    const prevMonthCategoryDistribution = new Map();
-    const monthBeforePrevCategoryDistribution = new Map ();
-
-    function categoryBasedDistributionFn(monthArrayItems, distributionObj){
-        for(const monthArrayItem of monthArrayItems ){
-            if(distributionObj.has(monthArrayItem.category)){
-                const getItem = distributionObj.get(monthArrayItem.category);
-                getItem.amount += monthArrayItem.amount;
-            }else{
-                distributionObj.set(monthArrayItem.category,{
-                    amount:monthArrayItem.amount,
-                })
-            }
-        }
-    }
-
-    categoryBasedDistributionFn(prevMonthTransactions,prevMonthCategoryDistribution);
-    categoryBasedDistributionFn(monthBeforePrevTransactions, monthBeforePrevCategoryDistribution);
 
     // const prevMonthData = [];
     // const monthBeforePrevData = [];
@@ -60,6 +30,7 @@ function AiInsightsPage ({transactions}){
             const response =await axios.post('http://localhost:5000/getAiAnalysis',{
                 data1:[...prevMonthCategoryDistribution.entries()],
                 data2:[...monthBeforePrevCategoryDistribution.entries()],
+                type:'aiInsightsPage',
             });
             console.log("sedind",[...prevMonthCategoryDistribution.entries()],[...monthBeforePrevCategoryDistribution.entries()]);
             setAnalysis(response.data);

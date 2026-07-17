@@ -31,18 +31,51 @@ function App() {
       getHoldings();
   },[])
 
+      let prevMonthTransactions = [];
+      let monthBeforePrevTransactions = [];
+      console.log(transactions);
+  
+      for(const transaction of transactions){
+          if(new Date(transaction.date).getMonth() === new Date().getMonth()-1){
+              prevMonthTransactions.push(transaction);    
+          }
+          if(new Date(transaction.date).getMonth() ===new Date().getMonth()-2){
+              monthBeforePrevTransactions.push(transaction);
+          }
+      }
+  
+      let prevMonthCategoryDistribution = new Map();
+      let monthBeforePrevCategoryDistribution = new Map ();
+  
+      function categoryBasedDistributionFn(monthArrayItems, distributionObj){
+          for(const monthArrayItem of monthArrayItems ){
+              if(distributionObj.has(monthArrayItem.category)){
+                  const getItem = distributionObj.get(monthArrayItem.category);
+                  getItem.amount += monthArrayItem.amount;
+              }else{
+                  distributionObj.set(monthArrayItem.category,{
+                      amount:monthArrayItem.amount,
+                      type:monthArrayItem.type
+                  })
+              }
+          }
+      }
+  
+      categoryBasedDistributionFn(prevMonthTransactions,prevMonthCategoryDistribution);
+      categoryBasedDistributionFn(monthBeforePrevTransactions, monthBeforePrevCategoryDistribution);
+
   return (
       <Routes>
         <Route path="/signup" element={<SignupPage mode="signup"/>}/>
         <Route path="/login" element={<LoginPage mode="login"/>}/>   
         <Route path="/test" element={<Test/>}></Route>
         <Route path="/" element={<Navbar/>}></Route>
-        <Route path="/dashboard" element={<Dashboard transactions={transactions} holdings={holdings}/>} />
+        <Route path="/dashboard" element={<Dashboard transactions={transactions} holdings={holdings} prevMonthCategoryDistribution={prevMonthCategoryDistribution} monthBeforePrevCategoryDistribution={monthBeforePrevCategoryDistribution}/>} />
         <Route path="/transactions" element={<Transactions transactions={transactions}/>} />
         <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions}/>}></Route> 
         <Route path="/portfolio" element={<Portfolio holdings={holdings}/>}></Route>  
         <Route path="/assetDetailsPage/:id" element={<AssetDetailsPage holdings={holdings}/>}></Route>  
-        <Route path="/aiinsights" element={<AiInsightsPage transactions={transactions}/>}></Route>    
+        <Route path="/aiinsights" element={<AiInsightsPage transactions={transactions} prevMonthCategoryDistribution={prevMonthCategoryDistribution} monthBeforePrevCategoryDistribution={monthBeforePrevCategoryDistribution} />}></Route>    
         <Route path="/settings" element={<Settings/>}></Route>  
       </Routes>
     
