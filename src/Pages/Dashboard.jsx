@@ -3,6 +3,7 @@ import Navbar from '../Components/Shared/Navbar';
 import Piechart from '../Components/Piechart';
 import LineChart from '../Components/LineChart';
 import '../Dashboard.css';
+import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 function Dashboard ({transactions, holdings}){
     //net worth calculation
@@ -42,7 +43,7 @@ function Dashboard ({transactions, holdings}){
                                     Net Worth
                                 </h1>
                                 <div className="amount">
-                                    ₹{netWorth.toLocaleString("en-IN")}
+                                    {formatTransactionAmount(netWorth)}
                                 </div>
                             </div>
                             <div className="monthlySavings flex flex-col items-center mx-4 max-sm:my-4">
@@ -50,7 +51,7 @@ function Dashboard ({transactions, holdings}){
                                     Monthly Savings
                                 </h1>
                                 <div className="amount">
-                                    ₹{(income-expenses).toLocaleString("en-IN")}
+                                    {formatTransactionAmount(income-expenses)}
                                 </div>
                             </div>
                             <div className="portfolioValue flex flex-col items-center ">
@@ -58,7 +59,7 @@ function Dashboard ({transactions, holdings}){
                                     Portfolio Value
                                 </h1>
                                 <div className="amount">
-                                    ₹{portfolioValue.toLocaleString("en-IN")}
+                                    {formatTransactionAmount(portfolioValue)}
                                 </div>
                             </div>
                         </div>
@@ -95,7 +96,7 @@ function Dashboard ({transactions, holdings}){
                                 [...transactions].reverse().slice(0,2).map((transaction)=>{
                                    return <div className="grid grid-cols-4 justify-between" key={transaction._id}>
                                             <span>{transaction.title} </span>
-                                            <span>₹ {transaction.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                                            <span>{formatTransactionAmount(transaction.amount)}</span>
                                             <span>{transaction.category}</span>
                                             <span>{new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",

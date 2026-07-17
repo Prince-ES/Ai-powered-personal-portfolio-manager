@@ -1,5 +1,6 @@
 import { useState} from 'react';
 import {Link} from 'react-router-dom';
+import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting.js';
 import '../Dashboard.css';
 import Navbar from '../Components/Shared/Navbar.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
@@ -104,7 +105,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                                 <div>{transaction.title}</div>
                                 <div>{transaction.category}</div>
                                 <div>{transaction.type}</div>
-                                <div>₹ {(transaction.amount).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
+                                <div> {formatTransactionAmount(transaction.amount)}</div>
                                 <div>
                                     {new Date(transaction.date).toLocaleString("en-IN", {
                                         day: "2-digit",

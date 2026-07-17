@@ -9,6 +9,7 @@ import { getPriceChartData } from '../apiCall/getPriceChartData';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 import RotateYourPhone from '../assets/rotateYourPhone.mp4'
+import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting';
 
 function Portfolio({holdings}){
 
@@ -81,15 +82,15 @@ function Portfolio({holdings}){
                     <div className="overview w-full flex justify-between  max-md:px-2 gap-2 text-xl text-white ">
                         <div className="investedAmount bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-4 py-2">
                             <label htmlFor="" className="font-bold text-2xl">Invested Amount</label>
-                            <div className="amount">₹{Number(investedAmount.toFixed(2)).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
+                            <div className="amount">{formatTransactionAmount(investedAmount)}</div>
                         </div>
                         <div className="currentValue bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-4 py-2">
                             <label htmlFor="" className="font-bold text-2xl">Current Value</label>
-                            <div className="amount">₹{Number(currentValue.toFixed(2)).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
+                            <div className="amount">{formatTransactionAmount(currentValue)}</div>
                         </div>
                         <div className="investedAmount bg-black/35 border border-white flex gap-2 items-center justify-center flex-col rounded-[10px] px-8 py-2">
                             <label htmlFor="" className="font-bold text-2xl">Total P/L</label>
-                            <div className="amount">₹{pnl.toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
+                            <div className="amount">{formatTransactionAmount(pnl)}</div>
                         </div>
                     </div>
                     <div className="charts flex max-lg:flex-col max-lg:gap-4 justify-between max-lg:w-full">
@@ -125,9 +126,9 @@ function Portfolio({holdings}){
                                                 {key}
                                             </Link>
                                             <span>{value.quantity}</span>
-                                            <span>₹ {value.averagePrice.toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
-                                            <span>₹ {value.currentPrice.toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
-                                            <span className={`${pnlColor ? "text-green-400": "text-red-400"}`}>₹ {(value.currentPrice * value.quantity - value.averagePrice * value.quantity).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
+                                            <span> {formatTransactionAmount(value.averagePrice)}</span>
+                                            <span>{formatTransactionAmount(value.currentPrice)}</span>
+                                            <span className={`${pnlColor ? "text-green-400": "text-red-400"}`}>{formatTransactionAmount(value.currentPrice * value.quantity - value.averagePrice * value.quantity)}</span>
                                     </div>
                                 })
                             }
