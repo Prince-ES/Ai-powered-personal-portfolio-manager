@@ -1,11 +1,13 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-function Navbar ({DashboardLogo, indexPage, className}){
+function Navbar ({DashboardLogo, className}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [userProfileData, setUserProfileData] = useState(false);
 
-    const isIndexPage = indexPage === "indexPage";
+    // const isIndexPage = indexPage === "indexPage";
     const hidden = className;
+    console.log(isNavOpen);
     return (
             <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
                 <div className="logo scale-125">
@@ -18,8 +20,13 @@ function Navbar ({DashboardLogo, indexPage, className}){
                         <div className="userlogo p-3 mr-4 rounded-full border text-white text-[11px] ">
                             <i className="fa-regular fa-user "></i>
                         </div>
-                        <div className="username">
-                            John Doe
+                        <div>
+                            <div className="username">
+                                John Doe
+                            </div>
+                            <div className="email text-sm text-gray-400">
+                                john.doe@example.com
+                            </div>
                         </div>
                         <div className={`text-md ml-4 cursor-pointer `}>
                             <i className={`fa-solid fa-xmark `} onClick={()=>{setIsNavOpen(prev=>!prev);console.log('xmark')}}></i>
@@ -40,27 +47,53 @@ function Navbar ({DashboardLogo, indexPage, className}){
                     <div>
                         <Link to="/settings">Settings</Link>
                     </div>
-
+                    <div className="md:hidden">
+                        Logout
+                    </div>
                 </div>
-                {!isIndexPage && 
+               
+                {/* if logged? show user profile else login buttion */}
                 <div className={`userAndBars flex items-center justify-center bg-black text-white text-xl w-20 rounded-full z-3 border py-4 ${isNavOpen ? "max-md:opacity-0" : "opacity-100"}`}>
-                    <Link to="/user-profile" >
-                        <span className= "hider max-md:hidden">
-                            <i className="fa-regular fa-user"></i>
+                    <div>
+                        <span className= "hider max-md:hidden relative ">
+                            <i className="fa-regular fa-user cursor-pointer hidden " onClick={()=>{setUserProfileData(prev => !prev)}}></i>
+                            <div className={`absolute top-12 right-[-20px]
+                                            flex flex-col gap-4 pl-4 pr-8 py-4
+                                            bg-[#0C161D] border rounded-[10px]
+                                            transition-all duration-300 ease-in-out
+                                            ${
+                                            userProfileData
+                                                ? "opacity-100 translate-y-0"
+                                                : "opacity-0 translate-y-4 pointer-events-none"
+                                            }`}>
+                                <div className="usernameAndEmail flex flex-col">
+                                    <div className="usernam text-lg">
+                                        JohnDoe
+                                    </div>
+                                    <div className="email text-sm text-gray-300">
+                                        john.doe@gmail.com
+                                    </div>
+                                </div>
+                                <div className="text-red-300">
+                                    logout
+                                </div>
+                            </div>                            
                         </span>
-                      </Link>
+                    </div>
                     <span className={`hider md:hidden `} >
                         <i className={`fa-solid fa-bars md:hidden`} onClick={()=>{setIsNavOpen(prev=>!prev); console.log('bars')}}></i>
                     </span>                    
                 </div>
-                }
-                {isIndexPage && 
-                <div className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
+                
+                
+                {/* <div className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
                     <Link to="/login">
                         Log in
                     </Link>
-                </div>
-                }  
+                </div> */}
+                
+                
+                
             </div>
     )
 }
