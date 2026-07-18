@@ -136,7 +136,6 @@ app.get('/holdings',async (req,res)=>{
 app.post('/PriceChartData', async(req,res)=>{    
     try{
         const {symbol} = req.body;
-        console.log(symbol);
          async function getChart (){
         // eslint-disable-next-line no-undef
             const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=${symbol}&interval=1day&apikey=${process.env.apiKey}`);
@@ -158,6 +157,15 @@ app.post('/getAiAnalysis', async(req,res)=>{
         const prompts = {
                         dashboard: `
                             You are a financial advisor.
+                            Rules:
+                            - Do not show calculations or formulas.
+                            - Do not write code.
+                            - Do not mention that data is simulated.
+                            - Do not say "I'll assume".
+                            - Do not explain your analysis process.
+                            - Do not mention Data variable name. refer to them as "last month" and "month before last".
+                            - Give only the final insights.
+                            - Use Indian currency (₹) for all monetary values.
                             you are given two monhts expenses. just compare and
                             Give a short summary in bullet 2-3 points (changes in %).
                         `,
@@ -181,8 +189,6 @@ app.post('/getAiAnalysis', async(req,res)=>{
                         Keep the response concise and easy to read.
                         `,
         };
-        console.log(data1,data2);
-        console.log(type === 'dashboard'? prompts.dashboard : prompts.detailed);
 
         const response = await axios.post("https://api.groq.com/openai/v1/chat/completions",{
             model:"llama-3.1-8b-instant",

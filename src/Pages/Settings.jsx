@@ -28,7 +28,7 @@ function Settings (){
                     <div className="theme flex flex-col gap-2">
                         <label htmlFor="" className="text-2xl font-bold">Theme</label>
                         <div className="themes text-xl">
-                             <div className="dark text-lg">Dark</div>
+                             <div className="dark text-lg">Dark (in Process...)</div>
                              <div className="light text-lg">Light</div>
                         </div>
                        
@@ -43,6 +43,7 @@ function Settings (){
                                 <option value="ETH">ETH</option>
                             </select>
                             <div className="save text-xl bg-[#0C161D] border border-white py-2 px-2 text-center rounded-[10px] hover:bg-gray-800 active:bg-gray-600 " >Save</div>
+                            <span>(Defaut is INR, rest are in process.)</span>
                         </div>
                         
                     </div>
