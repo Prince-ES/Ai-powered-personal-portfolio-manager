@@ -7,7 +7,6 @@ function Navbar ({DashboardLogo, className}){
 
     // const isIndexPage = indexPage === "indexPage";
     const hidden = className;
-    console.log(isNavOpen);
     return (
             <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
                 <div className="logo scale-125">
@@ -29,7 +28,7 @@ function Navbar ({DashboardLogo, className}){
                             </div>
                         </div>
                         <div className={`text-md ml-4 cursor-pointer `}>
-                            <i className={`fa-solid fa-xmark `} onClick={()=>{setIsNavOpen(prev=>!prev);console.log('xmark')}}></i>
+                            <i className={`fa-solid fa-xmark `} onClick={()=>{setIsNavOpen(prev=>!prev);}}></i>
                         </div>
                     </div>
                     <div className="dashboard-link  ">
@@ -81,7 +80,7 @@ function Navbar ({DashboardLogo, className}){
                         </span>
                     </div>
                     <span className={`hider md:hidden `} >
-                        <i className={`fa-solid fa-bars md:hidden`} onClick={()=>{setIsNavOpen(prev=>!prev); console.log('bars')}}></i>
+                        <i className={`fa-solid fa-bars md:hidden`} onClick={()=>{setIsNavOpen(prev=>!prev);}}></i>
                     </span>                    
                 </div>
                 

@@ -3,7 +3,7 @@ import Navbar from '../Components/Shared/Navbar.jsx';
 import axios from 'axios';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
-function AddTransactionPage( {setTransactions}){
+function AddTransactionPage( { getTransactions}){
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState('');
@@ -26,7 +26,8 @@ function AddTransactionPage( {setTransactions}){
 
     async function saveTransaction(){
        const response = await axios.post('http://localhost:5000/addTransaction',{title:title,amount:amount,type:type,category:category,notes:notes});  
-       setTransactions(prevTransactions => [...prevTransactions, response.data]);     
+        console.log(response.data);
+        await getTransactions();     
     }
 
     return (

@@ -99,16 +99,14 @@ const holdingsSchema = new mongoose.Schema({
 // getAiAnalysis();
 
 const transactionModel = mongoose.model('transaction',transactionSchema);
+const realTransactionModel = mongoose.model('realTransaction',transactionSchema);
 
 const holdingsModel = mongoose.model('holding',holdingsSchema);
-
-app.get('/',(req,res)=>{
-    res.send('hello world');        
-})
+const realHoldingsModel = mongoose.model('realHoldings',holdingsSchema);
 
 app.post('/addTransaction', async(req,res)=>{
     try {
-        const transaction = await transactionModel.create(req.body);
+        const transaction = await realTransactionModel.create(req.body);
         res.status(200).json(transaction);
     }catch (err){
         res.status(500).json({error:err.message});
@@ -117,8 +115,14 @@ app.post('/addTransaction', async(req,res)=>{
 
 app.get('/transactions', async(req,res)=>{
     try{
-        const transactions = await transactionModel.find();
-        res.status(200).json(transactions);
+        const realTransactions = await realTransactionModel.find();
+        if(realTransactions.length === 0){
+            const transactions = await transactionModel.find();
+            res.status(200).json(transactions);
+        }else{
+            res.status(200).json(realTransactions);
+        }
+        
     }catch(err){
         res.status(500).json({error:err.message});
     }
@@ -126,8 +130,14 @@ app.get('/transactions', async(req,res)=>{
 
 app.get('/holdings',async (req,res)=>{
     try{
-        const holdings = await holdingsModel.find();
-        res.status(200).json(holdings);
+        const realHoldings = await realHoldingsModel.find();
+        if(realHoldings.length === 0){
+            const holdings = await holdingsModel.find();
+            res.status(200).json(holdings);
+        }else{
+            res.status(200).json(realHoldings);
+        }
+        
     }catch(err){
         res.status(500).json({error:err.message});
     }
@@ -163,7 +173,7 @@ app.post('/getAiAnalysis', async(req,res)=>{
                             - Do not mention that data is simulated.
                             - Do not say "I'll assume".
                             - Do not explain your analysis process.
-                            - Do not mention Data variable name. refer to them as "last month" and "month before last".
+                            - Do not mention Data variable name. refer to them as "last month" and "current month".
                             - Give only the final insights.
                             - Use Indian currency (₹) for all monetary values.
                             you are given two monhts expenses. just compare and
@@ -180,7 +190,7 @@ app.post('/getAiAnalysis', async(req,res)=>{
                         - Do not mention that data is simulated.
                         - Do not say "I'll assume".
                         - Do not explain your analysis process.
-                        - Do not mention Data variable name. refer to them as "last month" and "month before last".
+                        - Do not mention Data variable name. refer to them as "last month" and "current month".
                         - Give only the final insights.
                         - Use Indian currency (₹) for all monetary values.
 

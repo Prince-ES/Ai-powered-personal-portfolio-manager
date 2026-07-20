@@ -21,13 +21,15 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
             expenses+=transactions[i].amount;
         }
     }
-    const netWorth = income-expenses;
+    // const netWorth = income-expenses;
     
     //portfolio calculation
     let portfolioValue = 0;
     for(let i = 0; i < holdings.length; i++){
         portfolioValue+= holdings[i].quantity * holdings[i].currentPrice;
     }
+
+    const netWorth = (portfolioValue+income)-expenses;
 
     let monthdata1 = [];
     let monthdata2 = [];
@@ -43,24 +45,27 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
     for(const [key,value] of monthBeforePrevCategoryDistribution){
         if(value.type === 'expense'){
             monthdata2.push([key,value]);
-            console.log(value.type)
         }
     }
 
     async function getAnalysis(){
+            if(monthdata1.length === 0 || monthdata2.length === 0){
+                setAnalysis('Not Enough Data. Have atleast two months data i.e, (previous and current till date)');
+                return;
+            }
             const response =await axios.post('http://localhost:5000/getAiAnalysis',{
                 data1:monthdata1,
                 data2:monthdata2,
                 type:'dashboard',
             });
-            console.log("seding",monthdata1, monthdata2);
+
             setAnalysis(response.data);
     }
 
     useEffect(()=>{
         // eslint-disable-next-line
         if(transactions.length != 0)getAnalysis();
-    },[transactions]);
+    },[prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution]);
 
     return (
         <div className="dashboard pt-4 xl:overflow-hidden m-0  ">
@@ -72,7 +77,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                         <h2 className="text-5xl font-bold text-center">Track your net worth, monitor spending, review investments, and uncover insights—all in one place.</h2>
                     </div>
                 </div>
-                <div className="exampleData text-4xl font-bold text-white text-left pl-8">Example Data</div>
+                <div className={`exampleData text-4xl font-bold text-white text-left pl-8 ${transactions.length === 192 ? 'block': 'hidden' } `}>Example Data</div>
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex justify-between flex-col gap-8">
                     <div className="overviewAndInsights  flex flex-col justify-between h-full w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">
@@ -107,7 +112,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                                 <Piechart transactions={transactions}/>
                             </div>
                             <div className="aiInsights w-[60%] max-lg:w-full px-8 py-4 max-sm:w-full max-sm:flex max-sm:items-center max-sm:flex-col">
-                                <h1 className="label text-xl font-bold ">Ai Insights</h1>
+                                <h1 className="label text-xl font-bold mb-4 ">Ai Insights</h1>
                                 <div className="text-lg flex flex-col gap-1 [&_ol]:list-decimal [&_ol]:mb-4 [&_ol]:ml-10 [&_ul]:list-disc  [&_ul]:mb-4 [&_ul]:ml-10">
                                     <ReactMarkdown >
                                         {analysis ? analysis : "Loading..."}

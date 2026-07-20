@@ -18,15 +18,19 @@ import './LoginPage.css';
 function App() {
   const [transactions,setTransactions] = useState([]);
   const [holdings,setHoldings] = useState([]);
+
+    async function getTransactions (){
+        const response = await  axios.get('http://localhost:5000/transactions');
+        setTransactions(response.data);
+        return response.data;
+    }
   useEffect(()=>{
-      async function getTransactions (){
-          const response = await  axios.get('http://localhost:5000/transactions');
-          setTransactions(response.data);
-      }
+
       async function getHoldings (){
         const response = await axios.get('http://localhost:5000/holdings');
         setHoldings(response.data);        
       }
+      // eslint-disable-next-line
       getTransactions();
       getHoldings();
   },[])
@@ -34,12 +38,14 @@ function App() {
       let prevMonthTransactions = [];
       let monthBeforePrevTransactions = [];
       console.log(transactions);
+      console.log('hello');
+      console.log(new Date().getMonth());
   
       for(const transaction of transactions){
-          if(new Date(transaction.date).getMonth() === new Date().getMonth()-1){
+          if(new Date(transaction.date).getMonth() === new Date().getMonth()){
               prevMonthTransactions.push(transaction);    
           }
-          if(new Date(transaction.date).getMonth() ===new Date().getMonth()-2){
+          if(new Date(transaction.date).getMonth() ===new Date().getMonth()-1){
               monthBeforePrevTransactions.push(transaction);
           }
       }
@@ -72,7 +78,7 @@ function App() {
         <Route path="/" element={<Navbar/>}></Route>
         <Route path="/dashboard" element={<Dashboard transactions={transactions} holdings={holdings} prevMonthCategoryDistribution={prevMonthCategoryDistribution} monthBeforePrevCategoryDistribution={monthBeforePrevCategoryDistribution}/>} />
         <Route path="/transactions" element={<Transactions transactions={transactions}/>} />
-        <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions}/>}></Route> 
+        <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions} getTransactions={getTransactions}/>}></Route> 
         <Route path="/portfolio" element={<Portfolio holdings={holdings}/>}></Route>  
         <Route path="/assetDetailsPage/:id" element={<AssetDetailsPage holdings={holdings}/>}></Route>  
         <Route path="/aiinsights" element={<AiInsightsPage transactions={transactions} prevMonthCategoryDistribution={prevMonthCategoryDistribution} monthBeforePrevCategoryDistribution={monthBeforePrevCategoryDistribution} />}></Route>    

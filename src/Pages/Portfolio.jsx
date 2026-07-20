@@ -74,7 +74,7 @@ function Portfolio({holdings}){
                         <h2 className="text-5xl font-bold text-center">Monitor your holdings, track performance, analyze allocation, and discover opportunities to strengthen your portfolio.</h2>
                     </div>
                 </div>
-                <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
+                <div className={`pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center ${holdings.length === 19 ? 'block': 'hidden' }`}>
                     Example Portfolio
                 </div>
                 {/* <div className="exampleData text-4xl font-bold text-white text-left pl-8">Example Data</div> */}

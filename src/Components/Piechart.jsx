@@ -25,12 +25,13 @@ function Piechart({transactions}){
 
     // eslint-disable-next-line no-unused-vars
     for(const [key,value] of categoryBasedDistribution){
-        if(value.type === 'expense'){
+        if(value.type.toLowerCase() === 'expense'){
             labels.push(value.category);
             chartData.push(value.total.toFixed(2));
         }
     }
 
+    console.log(transactions,chartData,labels);
     const colors = [
         "#4CAF50",
         "#F44336",

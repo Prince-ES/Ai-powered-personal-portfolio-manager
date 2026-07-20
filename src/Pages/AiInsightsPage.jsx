@@ -10,7 +10,9 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
 
 
 
-
+    console.log(transactions);
+    console.log('rendered');
+    console.log(prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution);
     // const prevMonthData = [];
     // const monthBeforePrevData = [];
 
@@ -25,11 +27,17 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
 
     // console.log(prevMonthData);
     // console.log(monthBeforePrevData);
+    let firstMonthData = [...prevMonthCategoryDistribution.entries()];
+    let secondMonthData = [...monthBeforePrevCategoryDistribution.entries()];
 
     async function getAnalysis(){
+        if(firstMonthData.length === 0 || secondMonthData.length === 0){
+            setAnalysis('Not Enough data. have altleast two months data i.e, (previous and current so far)');
+            return ;
+        }
             const response =await axios.post('http://localhost:5000/getAiAnalysis',{
-                data1:[...prevMonthCategoryDistribution.entries()],
-                data2:[...monthBeforePrevCategoryDistribution.entries()],
+                data1:firstMonthData,
+                data2:secondMonthData,
                 type:'aiInsightsPage',
             });
             console.log("sedind",[...prevMonthCategoryDistribution.entries()],[...monthBeforePrevCategoryDistribution.entries()]);
@@ -39,7 +47,7 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
     useEffect(()=>{
         // eslint-disable-next-line
         if(transactions.length != 0)getAnalysis();
-    },[transactions]);
+    },[prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution]);
     return (
         <div className="dashboard pt-4">
             <Navbar DashboardLogo={DashboardLogo}/>
