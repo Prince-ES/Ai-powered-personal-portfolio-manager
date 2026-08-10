@@ -10,7 +10,8 @@ function AuthCard ({mode}){
 
     const matchPassword = password === confirmPassword;
     return (
-        <div className="rightPart w-1/2  max-lg:min-w-screen flex items-center justify-center bg-taupe-50 p-8">
+
+
                 <form className="flex flex-col items-left justify-center bg-gray-400 px-8 py-12  rounded-[20px] shadow-2xl" >
                    {isSignup && <input required value={username} onChange={(e)=>{setUsername(e.target.value);console.log('username updated')}} type="text" placeholder="Name" className="w-[350px] border-1 rounded-[10px] border-black-300 focus:outline-none h-[50px]  bg-gray-50 p-4" />}
 
@@ -34,7 +35,7 @@ function AuthCard ({mode}){
                         }
                     </div>
                 </form>                
-            </div>
+
     )
 }
 
