@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
+import {Link} from 'react-router-dom';
 import Navbar from '../Components/Shared/Navbar';
 import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
@@ -27,20 +28,20 @@ function Index (){
     
     return (
         <div className="dashboard fixed  m-0 ">
-            <Navbar className="fixed w-full z-4 top-4" DashboardLogo={DashboardLogo} indexPage="indexPage"/>
+            <Navbar className="fixed w-full z-4 top-4" DashboardLogo={DashboardLogo} indexPage="indexPage" mode="Log in" />
             <div className="content flex flex-col justify-between items-center min-w-screen p-8 max-lg:px-16 max-lg:flex-col max-lg:gap-8 gap-8 relative z-3">
                 <div className="h-screen w-full flex flex-col gap-16 items-center justify-center transform translate-y-[-10%]">
                     <div className="text-white p-8  flex flex-col items-center justify-center gap-4">
                         <h1 className="gradientTitleIndex text-8xl font-bold text-center">Build Wealth with Confidence</h1>
                         <h2 className="text-4xl font-bold w-[80%] text-center">Manage your income, expenses, investments, and financial goals from one intelligent dashboard powered by AI.</h2>
                     </div>
-                    <div className="loginAndSignup text-white ">
-                        <button className="px-12 py-4 text-3xl border-2 border-white rounded-[10px] mr-16 hover:bg-[#0C161D] active:bg-gray-600">
+                    <div className="loginAndSignup text-white max-sm:flex max-sm:flex-col max-sm:gap-8 max-sm:items-center">
+                        <Link to="/login" className="px-12 py-4 text-3xl border-2 border-white rounded-[10px] mr-16 max-sm:mr-0 hover:bg-[#0C161D] active:bg-gray-600">
                             Log in
-                        </button>
-                        <button className="px-12 py-4 text-3xl border-2 border-white rounded-[10px] hover:bg-[#0C161D] active:bg-gray-600">
+                        </Link>
+                        <Link to="signup" className="px-12 py-4 text-3xl border-2 border-white rounded-[10px] hover:bg-[#0C161D] active:bg-gray-600">
                             Sign up
-                        </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex max-lg:flex-col-reverse items-center gap-8">

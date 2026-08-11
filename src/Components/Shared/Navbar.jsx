@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-function Navbar ({DashboardLogo, className}){
+function Navbar ({DashboardLogo, className, mode}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState(false);
@@ -52,7 +52,7 @@ function Navbar ({DashboardLogo, className}){
                 </div>
                
                 {/* if logged? show user profile else login buttion */}
-                {/* <div className={`userAndBars flex items-center justify-center bg-black text-white text-xl w-20 rounded-full z-3 border py-4 ${isNavOpen ? "max-md:opacity-0" : "opacity-100"}`}>
+                {!mode && <div className={`userAndBars flex items-center justify-center bg-black text-white text-xl w-20 rounded-full z-3 border py-4 ${isNavOpen ? "max-md:opacity-0" : "opacity-100"}`}>
                     <div>
                         <span className= "hider max-md:hidden relative ">
                             <i className="fa-regular fa-user cursor-pointer hidden " onClick={()=>{setUserProfileData(prev => !prev)}}></i>
@@ -82,14 +82,14 @@ function Navbar ({DashboardLogo, className}){
                     <span className={`hider md:hidden `} >
                         <i className={`fa-solid fa-bars md:hidden`} onClick={()=>{setIsNavOpen(prev=>!prev);}}></i>
                     </span>                    
-                </div> */}
+                </div>}
+
                 
-                
-                <div className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
-                    <Link to="/login">
-                        Log in
-                    </Link>
-                </div>
+                {mode && <Link to={`/${mode.replace(/\s/g, "")}`} className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
+                    <div to={`/${mode.replace(/\s/g, "")}`}>
+                       {mode}
+                    </div>
+                </Link>}
                 
                 
                 

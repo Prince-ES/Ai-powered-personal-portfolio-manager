@@ -23,6 +23,7 @@
   );
   background-size: 400% 400%;
   animation: animate 15s linear infinite;
+  pointer-events: none;
 }
 
 .summaryCards,.recentTransactions,.logo{
