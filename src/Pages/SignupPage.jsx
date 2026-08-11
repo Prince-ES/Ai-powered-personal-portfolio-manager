@@ -1,5 +1,5 @@
-import SignupCard from '../Components/Shared/AuthCard';
-import Navbar from '../Components/Shared/Navbar' 
+import SignupCard from '../Components/AuthCard';
+import Navbar from '../Components/Navbar' 
 import DashboardLogo from '../assets/DashboardLogo.svg';
 
 function SignupPage (){

@@ -1,15 +1,15 @@
 
-import Navbar from '../Components/Shared/Navbar';
+import Navbar from '../Components/Navbar';
 import PortfolioPieChart from '../Components/PortfolioPieChart';
 import PriceChartAAPL from '../Components/PriceChartAAPL';
 // import {useState} from 'react';
 import {Link} from 'react-router-dom'
 import {useState, useEffect} from 'react';
-import { getPriceChartData } from '../apiCall/getPriceChartData';
-import '../Dashboard.css';
+import { getPriceChartData } from '../api/getPriceChartData';
+// import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 import RotateYourPhone from '../assets/rotateYourPhone.mp4'
-import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting';
+import { formatTransactionAmount } from '../Components/transAmtFormatting';
 
 function Portfolio({holdings}){
 

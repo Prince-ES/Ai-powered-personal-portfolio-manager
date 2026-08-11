@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import Navbar from '../Components/Shared/Navbar.jsx';
+import Navbar from '../Components/Navbar.jsx';
 import axios from 'axios';
-import '../Dashboard.css';
+// import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 function AddTransactionPage( { getTransactions}){
     const [title, setTitle] = useState('');
@@ -25,7 +25,7 @@ function AddTransactionPage( { getTransactions}){
     }
 
     async function saveTransaction(){
-       const response = await axios.post('http://localhost:5000/addTransaction',{title:title,amount:amount,type:type,category:category,notes:notes});  
+       const response = await axios.post('http://localhost:5000/api/transactions/addTransaction',{title:title,amount:amount,type:type,category:category,notes:notes});  
         console.log(response.data);
         await getTransactions();     
     }

@@ -1,10 +1,10 @@
-import Navbar from '../Components/Shared/Navbar';
+import Navbar from '../Components/Navbar';
 import PriceChartAAPL from '../Components/PriceChartAAPL';
 import {useEffect,useState} from 'react';
 import {Link,useParams} from 'react-router-dom';
 import DashboardLogo from '../assets/dashboardLogo.svg';
-import '../Dashboard.css';
-import { getPriceChartData } from '../apiCall/getPriceChartData';
+// import '../Dashboard.css';
+import { getPriceChartData } from '../api/getPriceChartData';
 
 function AssetDetailsPage({holdings}){
     const [chartData, setChartData] = useState([]);

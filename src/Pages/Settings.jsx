@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import Navbar from '../Components/Shared/Navbar';
+import Navbar from '../Components/Navbar';
 import DashboardLogo from '../assets/dashboardLogo.svg';
-import '../Dashboard.css';
+// import '../Dashboard.css';
 
 function Settings (){
 

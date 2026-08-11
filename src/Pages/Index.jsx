@@ -1,8 +1,8 @@
 import {useState, useEffect, useRef} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {Link} from 'react-router-dom';
-import Navbar from '../Components/Shared/Navbar';
-import '../Dashboard.css';
+import Navbar from '../Components/Navbar';
+// import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import img1 from '../assets/indexPageImages/img1.png';
 import img2 from '../assets/indexPageImages/img2.png';

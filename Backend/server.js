@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import axios from 'axios';
+import { transactionModel, realTransactionModel } from './models/transaction.js';
+import { holdingsModel, realHoldingsModel } from './models/holding.js';
 
 
 const app = express();
@@ -24,53 +26,6 @@ mongoose.connect(process.env.mongoId)
     })
 
 
-const transactionSchema = new mongoose.Schema({
-     title: {
-    type: String,
-    required: true
-    },
-    amount: {
-        type: Number,
-        required: true
-    },
-    category:{
-        type: String,
-        required:true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date, 
-        default:Date.now
-    },
-    notes: {
-        type: String,
-        default: ""
-    }
-    
-})
-
-const holdingsSchema = new mongoose.Schema({
-    symbol:{
-        type:String,
-        required:true
-    },
-    currentPrice:{
-        type:Number,
-        required:true
-    },
-    quantity:{
-        type:Number,
-        required:true
-    },
-    averagePrice:{
-        type:Number,
-        required:true
-    }
-
-})
 
 // async function getAiAnalysis (){
 //     const aiApiKey = process.env.groqApiKey;
@@ -98,13 +53,8 @@ const holdingsSchema = new mongoose.Schema({
 // }
 // getAiAnalysis();
 
-const transactionModel = mongoose.model('transaction',transactionSchema);
-const realTransactionModel = mongoose.model('realTransaction',transactionSchema);
 
-const holdingsModel = mongoose.model('holding',holdingsSchema);
-const realHoldingsModel = mongoose.model('realHoldings',holdingsSchema);
-
-app.post('/addTransaction', async(req,res)=>{
+app.post('/api/transactions/addTransaction', async(req,res)=>{
     try {
         const transaction = await realTransactionModel.create(req.body);
         res.status(200).json(transaction);
@@ -113,7 +63,7 @@ app.post('/addTransaction', async(req,res)=>{
     }
 })
 
-app.get('/transactions', async(req,res)=>{
+app.get('/api/transactions', async(req,res)=>{
     try{
         const realTransactions = await realTransactionModel.find();
         if(realTransactions.length === 0){
@@ -128,7 +78,7 @@ app.get('/transactions', async(req,res)=>{
     }
 })
 
-app.get('/holdings',async (req,res)=>{
+app.get('/api/holdings',async (req,res)=>{
     try{
         const realHoldings = await realHoldingsModel.find();
         if(realHoldings.length === 0){
@@ -143,7 +93,7 @@ app.get('/holdings',async (req,res)=>{
     }
 })
 
-app.post('/PriceChartData', async(req,res)=>{    
+app.post('/api/PriceChartData', async(req,res)=>{    
     try{
         const {symbol} = req.body;
          async function getChart (){
@@ -157,7 +107,7 @@ app.post('/PriceChartData', async(req,res)=>{
     }
 })
 
-app.post('/getAiAnalysis', async(req,res)=>{
+app.post('/api/aiInsights/getAiAnalysis', async(req,res)=>{
     try{
         // eslint-disable-next-line no-undef
         const aiApiKey = process.env.groqApiKey;

@@ -12,7 +12,6 @@ import Navbar from './Pages/Index.jsx';
 import AiInsightsPage from './Pages/AiInsightsPage.jsx';
 import Settings from './Pages/Settings.jsx'
 import Test from './Pages/Test.jsx';
-import './LoginPage.css';
 
 
 function App() {
@@ -20,14 +19,14 @@ function App() {
   const [holdings,setHoldings] = useState([]);
 
     async function getTransactions (){
-        const response = await  axios.get('http://localhost:5000/transactions');
+        const response = await  axios.get('http://localhost:5000/api/transactions');
         setTransactions(response.data);
         return response.data;
     }
   useEffect(()=>{
 
       async function getHoldings (){
-        const response = await axios.get('http://localhost:5000/holdings');
+        const response = await axios.get('http://localhost:5000/api/holdings');
         setHoldings(response.data);        
       }
       // eslint-disable-next-line

@@ -1,5 +1,5 @@
-import Navbar from '../Components/Shared/Navbar';
-import LoginCard from '../Components/Shared/AuthCard';
+import Navbar from '../Components/Navbar';
+import LoginCard from '../Components/AuthCard';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 
 function LoginPage (){

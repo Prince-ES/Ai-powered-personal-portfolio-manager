@@ -1,8 +1,8 @@
 import { useState} from 'react';
 import {Link} from 'react-router-dom';
-import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting.js';
-import '../Dashboard.css';
-import Navbar from '../Components/Shared/Navbar.jsx';
+import { formatTransactionAmount } from '../Components/transAmtFormatting.js';
+// import '../Dashboard.css';
+import Navbar from '../Components/Navbar.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import RotateYourPhone from '../assets/rotateYourPhone.mp4';
  function Transactions({transactions}) {

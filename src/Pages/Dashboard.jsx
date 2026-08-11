@@ -1,12 +1,12 @@
 // import dashboardBg from '../assets/DashboardBg.png';
-import Navbar from '../Components/Shared/Navbar';
+import Navbar from '../Components/Navbar';
 import Piechart from '../Components/Piechart';
 import LineChart from '../Components/LineChart';
 import ReactMarkdown from 'react-markdown';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import '../Dashboard.css';
-import { formatTransactionAmount } from '../Components/Shared/transAmtFormatting';
+// import '../Dashboard.css';
+import { formatTransactionAmount } from '../Components/transAmtFormatting';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
 
@@ -53,7 +53,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                 setAnalysis('Not Enough Data. Have atleast two months data i.e, (previous and current till date)');
                 return;
             }
-            const response =await axios.post('http://localhost:5000/getAiAnalysis',{
+            const response =await axios.post('http://localhost:5000/api/aiInsights/getAiAnalysis',{
                 data1:monthdata1,
                 data2:monthdata2,
                 type:'dashboard',
@@ -77,7 +77,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                         <h2 className="text-5xl font-bold text-center">Track your net worth, monitor spending, review investments, and uncover insights—all in one place.</h2>
                     </div>
                 </div>
-                <div className={`exampleData text-4xl font-bold text-white text-left pl-8 ${transactions.length === 192 ? 'block': 'hidden' } `}>Example Data</div>
+                <div className={`exampleData text-4xl font-bold text-white text-left pl-8 ${transactions.length === 223 ? 'block': 'hidden' } `}>Example Data</div>
                 <div className="summaryCards w-full px-8 pt-8 pb-8 flex justify-between flex-col gap-8">
                     <div className="overviewAndInsights  flex flex-col justify-between h-full w-full">
                         <div className="overview w-full rounded-[10px] bg-black/35 border border-[374151] text-white flex items-center text-xl  px-8 py-8 mb-8 justify-between max-sm:flex-col ">

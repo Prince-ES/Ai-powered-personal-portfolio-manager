@@ -1,9 +1,9 @@
-import Navbar from '../Components/Shared/Navbar';
+import Navbar from '../Components/Navbar';
 import ReactMarkdown from 'react-markdown';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import DashboardLogo from '../assets/dashboardLogo.svg';
-import '../Dashboard.css';
+// import '../Dashboard.css';
 
 function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
     const [analysis, setAnalysis] = useState('');
@@ -35,7 +35,7 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
             setAnalysis('Not Enough data. have altleast two months data i.e, (previous and current so far)');
             return ;
         }
-            const response =await axios.post('http://localhost:5000/getAiAnalysis',{
+            const response =await axios.post('http://localhost:5000/api/aiInsights/getAiAnalysis',{
                 data1:firstMonthData,
                 data2:secondMonthData,
                 type:'aiInsightsPage',
