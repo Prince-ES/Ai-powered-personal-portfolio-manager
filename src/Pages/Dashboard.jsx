@@ -53,6 +53,11 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                 setAnalysis('Not Enough Data. Have atleast two months data i.e, (previous and current till date)');
                 return;
             }
+            const cachedAnalysis = localStorage.getItem('aiInsights-dashboard');
+            if(cachedAnalysis){
+                setAnalysis(cachedAnalysis);
+                return;
+            }
             const response =await axios.post('http://localhost:5000/api/aiInsights/getAiAnalysis',{
                 data1:monthdata1,
                 data2:monthdata2,
@@ -60,6 +65,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
             });
 
             setAnalysis(response.data);
+            localStorage.setItem('aiInsights-dashboard',response.data);
     }
 
     useEffect(()=>{
