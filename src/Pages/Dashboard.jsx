@@ -34,14 +34,12 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
     let monthdata1 = [];
     let monthdata2 = [];
 
-    // eslint-disable-next-line no-unused-vars
     for(const [key,value] of prevMonthCategoryDistribution){
         if(value.type === 'expense'){
             monthdata1.push([key,value]);
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     for(const [key,value] of monthBeforePrevCategoryDistribution){
         if(value.type === 'expense'){
             monthdata2.push([key,value]);
@@ -71,6 +69,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
     useEffect(()=>{
         // eslint-disable-next-line
         if(transactions.length != 0)getAnalysis();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution]);
 
     return (

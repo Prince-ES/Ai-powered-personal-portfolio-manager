@@ -3,8 +3,10 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import axios from 'axios';
+import bcrypt from 'bcrypt';
 import { transactionModel, realTransactionModel } from './models/transaction.js';
 import { holdingsModel, realHoldingsModel } from './models/holding.js';
+import { userModel } from './models/users.js'
 
 
 const app = express();
@@ -53,7 +55,43 @@ mongoose.connect(process.env.mongoId)
 // }
 // getAiAnalysis();
 
+app.post ('/api/auth/signup', async (req, res)=>{
+    try{
+        const {username,email,password} = req.body;
 
+        if(!username || !email || !password){
+            res.status(400).json({
+                message:"All fields are required"
+            })
+        }
+
+        const existingUser = await userModel.findOne({email});
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: "Email already registered"
+            });
+        }
+
+        const hashedPass = await bcrypt.hash(password, 10);
+
+        await userModel.create({
+            username,
+            email,
+            password:hashedPass,
+        });
+
+        return res.status(201).json({
+            message:"Account created successfully"
+        })
+
+    }catch(error){
+        res.status(500).json({
+            message: "Internal server error",
+            error:error
+        })
+    }
+})
 app.post('/api/transactions/addTransaction', async(req,res)=>{
     try {
         const transaction = await realTransactionModel.create(req.body);

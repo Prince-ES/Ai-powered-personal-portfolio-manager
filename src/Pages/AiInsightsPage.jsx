@@ -47,6 +47,7 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
     useEffect(()=>{
         // eslint-disable-next-line
         if(transactions.length != 0)getAnalysis();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution]);
     return (
         <div className="dashboard pt-16">
