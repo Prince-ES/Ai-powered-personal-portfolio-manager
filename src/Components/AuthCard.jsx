@@ -1,16 +1,20 @@
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import axios from 'axios';
 import checkmark from '../assets/checkmark.png';
 import crossmark from '../assets/failed.png';
+import { useAuth } from '../context/AuthContext.jsx';
+import {logIn, signUp} from '../api/auth.js';
 
 function AuthCard ({mode}){ 
     const isSignup = mode === "signup";
-    let [username, setUsername] = useState('');
-    let [email, setEmail] = useState('');
-    let [password, setPassword] = useState('');
-    let [confirmPassword,setConfirmPassword] = useState('');
-    let [responseMsg, setResponseMsg] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword,setConfirmPassword] = useState('');
+    const [responseMsg, setResponseMsg] = useState('');
+    const [resStatus, setResStatus] = useState('');
+    // eslint-disable-next-line no-unused-vars
+    const {accessToken, setAccessToken} = useAuth();
 
     const matchPassword = password === confirmPassword;
 
@@ -35,21 +39,27 @@ function AuthCard ({mode}){
         setConfirmPassword('');
     }
 
-    async function handleSubmit(){
+    async function handleSignupSubmit(){
+        let res;
         try{
-            const res = await axios.post('http://localhost:5000/api/auth/signup',{
-                username:username,
-                email:email,
-                password:password,
-            });
+            if(isSignup){
+
+                res = await signUp(username,email,password);                
+                navigateToLogin();
+
+            }else{
+                
+                res = await logIn(email, password);                
+                setAccessToken(res.data.accessToken);            
+            }
+
             setResponseMsg(res.data.message);
+            setResStatus(res.status);
             signupAttemptMsg();
             resetForm();
-            navigateToLogin();
-            // navigate('/login'); 
-
         }catch(error){
             setResponseMsg(error.response?.data?.message || "Something went wrong");
+            setResStatus(error.response?.status);
             signupAttemptMsg();
 
             if(error.response?.status === 409){
@@ -61,11 +71,11 @@ function AuthCard ({mode}){
     return (
 
 
-        <form className="relative flex flex-col items-left justify-center bg-[#DDDDDD]  border-2 border-white px-8 py-12  rounded-[20px] shadow-2xl relative z-4" onSubmit={(e)=>{e.preventDefault(); handleSubmit()}}>
+        <form className="relative flex flex-col items-left justify-center bg-[#DDDDDD]  border-2 border-white px-8 py-12  rounded-[20px] shadow-2xl relative z-4" onSubmit={(e)=>{e.preventDefault(); handleSignupSubmit()}}>
             {responseMsg && 
             <div className="absolute top-[50%] left-[25%] transform translate-y-[-50%]  bg-black/50 text-white py-2 px-4 rounded-full flex">
-                { responseMsg === "Account created successfully" && <img className="h-[25px] mr-1" src={checkmark}/>}
-                { responseMsg === "Email already registered" && <img className="h-[25px] mr-1" src={crossmark}/>}
+                { (resStatus === 201 || resStatus === 200) ? <img className="h-[25px] mr-1" src={checkmark}/> : ''}
+                { (resStatus === 401 || resStatus === 400 || resStatus === 500 ) ? <img className="h-[25px] mr-1" src={crossmark}/> : ''}
                 <span>{responseMsg}</span>
             </div>}
             {isSignup && <input required value={username} onChange={(e)=>{setUsername(e.target.value.trim().replace(/\s/g, ''))}} type="text" placeholder="Username" className="w-[350px] border-1 rounded-[10px] border-black-300 focus:outline-none h-[50px]  bg-gray-50 p-4" />}

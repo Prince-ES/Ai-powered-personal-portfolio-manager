@@ -4,7 +4,7 @@ import {useEffect,useState} from 'react';
 import {Link,useParams} from 'react-router-dom';
 import DashboardLogo from '../assets/dashboardLogo.svg';
 // import '../Dashboard.css';
-import { getPriceChartData } from '../api/getPriceChartData';
+import { priceChartData } from '../api/priceChartData';
 
 function AssetDetailsPage({holdings}){
     const [chartData, setChartData] = useState([]);
@@ -12,7 +12,7 @@ function AssetDetailsPage({holdings}){
 
     useEffect(()=>{        
         async function getChartData (){
-           const response = await getPriceChartData('MSFT');//get symbol from useParams
+           const response = await priceChartData('MSFT');//get symbol from useParams
            setChartData(response);
         }
         getChartData();

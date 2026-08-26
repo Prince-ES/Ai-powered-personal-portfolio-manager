@@ -1,8 +1,8 @@
 import Navbar from '../Components/Navbar';
 import ReactMarkdown from 'react-markdown';
 import {useState, useEffect} from 'react';
-import axios from 'axios';
 import DashboardLogo from '../assets/dashboardLogo.svg';
+import { getAiInsights } from '../api/aiInsights';
 // import '../Dashboard.css';
 
 function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
@@ -35,11 +35,8 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
             setAnalysis(cachedAnalysis);
             return;
         }
-        const response =await axios.post('http://localhost:5000/api/aiInsights/getAiAnalysis',{
-            data1:firstMonthData,
-            data2:secondMonthData,
-            type:'aiInsightsPage',
-        });
+
+        const response = await getAiInsights(firstMonthData, secondMonthData, 'aiInsightsPage');
         localStorage.setItem('aiInsights',response.data);
         setAnalysis(response.data);
     }

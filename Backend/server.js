@@ -1,20 +1,28 @@
+/* eslint-disable no-undef */
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser'
 import { transactionModel, realTransactionModel } from './models/transaction.js';
 import { holdingsModel, realHoldingsModel } from './models/holding.js';
-import { userModel } from './models/users.js'
+import { userModel } from './models/users.js';
 
 
 const app = express();
 dotenv.config();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true
+}));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 // eslint-disable-next-line no-undef
 mongoose.connect(process.env.mongoId)
@@ -55,6 +63,74 @@ mongoose.connect(process.env.mongoId)
 // }
 // getAiAnalysis();
 
+function authenticateToken (req, res, next){
+    const authHeader = req.headers.authorization;
+    console.log(authHeader);
+    const accessToken = authHeader?.split(' ')[1];
+
+    //When token is missing (made request from external source or refreshed app)
+    if(!accessToken){
+        return res.status(401).json({
+            message:"Access token required",
+        })
+    }
+
+    try{
+        const decoded = jwt.verify(accessToken,process.env.JWT_ACCESS_SECRET);
+
+        if (!decoded.userId) {//ensuring userId was used during signature.
+            return res.status(401).json({
+                message: "Invalid access token"
+            });
+        }
+
+        req.user = decoded;
+        next()
+    }catch(error){
+        res.status(401).json({
+            message: "Invalid or Expired token",
+            error:error
+        })
+    }
+
+    // two cases: token is invalid (user sent anything as token or it just expired)/ token is valid. 
+    
+}
+
+app.post('/api/auth/refresh',(req, res)=>{//request will get redirected here if: there was no token sent or it was invalid
+    const oldToken = req.cookies.refreshToken;
+
+    try{
+        const decoded = jwt.verify(oldToken, process.env.JWT_REFRESH_SECRET);
+
+        if(!decoded.email){
+            return res.status(401).json({
+                message:"User not found."
+            })
+        }
+
+        const newAccessToken = jwt.sign({
+            userId:decoded.userId,
+            email:decoded.email,
+        },process.env.JWT_ACCESS_SECRET,
+        {
+            expiresIn: '15m'
+        })
+
+        return res.status(201).json({
+            accessToken:newAccessToken
+        })
+        
+    }catch(error){
+        res.status(401).json({
+            message: "User logged out. Please login again",
+            error: error,
+        })
+    }
+
+    
+})
+
 app.post ('/api/auth/signup', async (req, res)=>{
     try{
         const {username,email,password} = req.body;
@@ -92,7 +168,77 @@ app.post ('/api/auth/signup', async (req, res)=>{
         })
     }
 })
-app.post('/api/transactions/addTransaction', async(req,res)=>{
+
+//login cases:
+//All fields required,
+//no user found? email or password incorrect,
+//server error
+
+app.post('/api/auth/login', async(req,res)=>{
+    try{
+        const {email, password} = req.body;
+
+        if(!email || !password){
+            return res.status(400).json({
+                message:"Please fill out all the fields"
+            })
+        }
+    
+        const user = await userModel.findOne({email});//findOne takes filter object, we can have multiple conditions like {email:xyz@gmail.com, age:25} and 
+        if(!user){
+            return res.status(401).json({
+                message:"Incorrect email or password"
+            })
+        }
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if(!isPasswordCorrect){
+            return res.status(401).json({
+                message:"Incorrect email or password"
+            })
+        }
+        
+        const accessToken = jwt.sign({
+                userId:user._id,
+                email:user.email,
+            },// eslint-disable-next-line no-undef
+                process.env.JWT_ACCESS_SECRET,
+            {
+                expiresIn: '15m'
+            }
+        );
+
+        const refreshToken = jwt.sign({
+                userId:user._id,
+                email:user.email,
+            },// eslint-disable-next-line no-undef
+                process.env.JWT_REFRESH_SECRET,
+            {
+                expiresIn: '7d'
+            }
+        );
+
+        res.cookie('refreshToken', refreshToken,{
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        return res.status(200).json({
+            message:"Login successful",
+            accessToken
+        })
+
+    }catch(error){
+        res.status(500).json({
+            message: "Internal server error",
+            error:error
+        })
+    }
+
+})
+
+app.post('/api/transactions/addTransaction',authenticateToken, async(req,res)=>{
     try {
         const transaction = await realTransactionModel.create(req.body);
         res.status(200).json(transaction);
@@ -101,7 +247,7 @@ app.post('/api/transactions/addTransaction', async(req,res)=>{
     }
 })
 
-app.get('/api/transactions', async(req,res)=>{
+app.get('/api/transactions',authenticateToken, async(req,res)=>{
     try{
         const realTransactions = await realTransactionModel.find();
         if(realTransactions.length === 0){
@@ -116,7 +262,7 @@ app.get('/api/transactions', async(req,res)=>{
     }
 })
 
-app.get('/api/holdings',async (req,res)=>{
+app.get('/api/holdings', authenticateToken, async (req,res)=>{
     try{
         const realHoldings = await realHoldingsModel.find();
         if(realHoldings.length === 0){
@@ -131,7 +277,7 @@ app.get('/api/holdings',async (req,res)=>{
     }
 })
 
-app.post('/api/PriceChartData', async(req,res)=>{    
+app.post('/api/PriceChartData', authenticateToken, async(req,res)=>{    
     try{
         const {symbol} = req.body;
          async function getChart (){
@@ -145,7 +291,7 @@ app.post('/api/PriceChartData', async(req,res)=>{
     }
 })
 
-app.post('/api/aiInsights/getAiAnalysis', async(req,res)=>{
+app.post('/api/aiInsights/getAiAnalysis', authenticateToken, async(req,res)=>{
     try{
         // eslint-disable-next-line no-undef
         const aiApiKey = process.env.groqApiKey;

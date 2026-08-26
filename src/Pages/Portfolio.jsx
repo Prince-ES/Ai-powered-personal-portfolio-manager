@@ -5,7 +5,7 @@ import PriceChartAAPL from '../Components/PriceChartAAPL';
 // import {useState} from 'react';
 import {Link} from 'react-router-dom'
 import {useState, useEffect} from 'react';
-import { getPriceChartData } from '../api/getPriceChartData';
+import { priceChartData } from '../api/priceChartData';
 // import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 import RotateYourPhone from '../assets/rotateYourPhone.mp4'
@@ -53,7 +53,7 @@ function Portfolio({holdings}){
     useEffect(()=>{
         
         async function getChartData (){
-            const response = await getPriceChartData('MSFT');
+            const response = await priceChartData('MSFT');
             setChartData(response);
         }
         getChartData();

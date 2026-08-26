@@ -8,6 +8,7 @@ import axios from 'axios';
 // import '../Dashboard.css';
 import { formatTransactionAmount } from '../Components/transAmtFormatting';
 import DashboardLogo from '../assets/DashboardLogo.svg';
+import { getAiInsights } from '../api/aiInsights';
 function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
 
     const [analysis, setAnalysis] = useState('');
@@ -56,12 +57,8 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
                 setAnalysis(cachedAnalysis);
                 return;
             }
-            const response =await axios.post('http://localhost:5000/api/aiInsights/getAiAnalysis',{
-                data1:monthdata1,
-                data2:monthdata2,
-                type:'dashboard',
-            });
 
+            const response = await getAiInsights(monthdata1,monthdata2, 'dashboard');
             setAnalysis(response.data);
             localStorage.setItem('aiInsights-dashboard',response.data);
     }
