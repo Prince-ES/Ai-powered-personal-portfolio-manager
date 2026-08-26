@@ -2,6 +2,7 @@ import {useState, useEffect, useRef} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {Link} from 'react-router-dom';
 import Navbar from '../Components/Navbar';
+import {useAuth} from '../context/AuthContext.jsx'
 // import '../Dashboard.css';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import img1 from '../assets/indexPageImages/img1.png';
@@ -12,6 +13,8 @@ import img5 from "../assets/indexPageImages/img5.png";
 
 function Index (){
     const intervalRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
+    const {userInfo, setUserInfo} = useAuth();
     const restartTimer = ()=>{
         clearInterval(intervalRef.current);
         intervalRef.current = setInterval(()=>{
@@ -35,6 +38,7 @@ function Index (){
                         <h1 className="gradientTitleIndex text-8xl font-bold text-center">Build Wealth with Confidence</h1>
                         <h2 className="text-4xl font-bold w-[80%] text-center">Manage your income, expenses, investments, and financial goals from one intelligent dashboard powered by AI.</h2>
                     </div>
+                    {!userInfo &&
                     <div className="loginAndSignup text-white max-sm:flex max-sm:flex-col max-sm:gap-8 max-sm:items-center">
                         <Link to="/login" className="px-12 py-4 text-3xl border-2 border-white rounded-[10px] mr-16 max-sm:mr-0 hover:bg-[#0C161D] active:bg-gray-600">
                             Log in
@@ -43,6 +47,7 @@ function Index (){
                             Sign up
                         </Link>
                     </div>
+                    }
                 </div>
                 <div className="flex max-lg:flex-col-reverse items-center gap-8">
                     <div className=" text-white text-5xl max-lg:text-5xl w-1/2 max-lg:w-full bg-black/25 border rounded-[10px] py-16 px-8 ml-12 max-lg:ml-0 max-lg:py-8 max-lg:px-8">

@@ -65,7 +65,6 @@ mongoose.connect(process.env.mongoId)
 
 function authenticateToken (req, res, next){
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
     const accessToken = authHeader?.split(' ')[1];
 
     //When token is missing (made request from external source or refreshed app)
@@ -237,6 +236,22 @@ app.post('/api/auth/login', async(req,res)=>{
     }
 
 })
+
+app.get('/api/user',authenticateToken, (async(req, res)=>{
+    try{
+        console.log("user", req.user);
+        const userInfo = await userModel.findOne({email: req.user.email});
+        console.log("userinfo", userInfo);
+
+        if(userInfo){
+            return res.status(200).json({username:userInfo.username, email:userInfo.email});
+
+        }
+    }catch(error){
+        res.status(500).json({message: "user not found", error: error});
+    }
+    
+}))
 
 app.post('/api/transactions/addTransaction',authenticateToken, async(req,res)=>{
     try {

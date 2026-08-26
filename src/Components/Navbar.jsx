@@ -1,10 +1,11 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
-function Navbar ({DashboardLogo, className, mode}){
+import {useAuth} from '../context/AuthContext.jsx';
+function Navbar ({DashboardLogo, className, mode = "log in"}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState(false);
-
+    const {userInfo, setUserInfo} = useAuth();
     // const isIndexPage = indexPage === "indexPage";
     const hidden = className;
     return (
@@ -52,7 +53,7 @@ function Navbar ({DashboardLogo, className, mode}){
                 </div>
                
                 {/* if logged? show user profile else login buttion */}
-                {!mode && <div className={`userAndBars flex items-center justify-center bg-black text-white text-xl w-20 rounded-full z-3 border py-4 ${isNavOpen ? "max-md:opacity-0" : "opacity-100"}`}>
+                {userInfo ? <div className={`userAndBars flex items-center justify-center bg-black text-white text-xl w-20 rounded-full z-3 border py-4 ${isNavOpen ? "max-md:opacity-0" : "opacity-100"}`}>
                     <div>
                         <span className= "hider max-md:hidden relative ">
                             <i className="fa-regular fa-user cursor-pointer hidden " onClick={()=>{setUserProfileData(prev => !prev)}}></i>
@@ -67,10 +68,10 @@ function Navbar ({DashboardLogo, className, mode}){
                                             }`}>
                                 <div className="usernameAndEmail flex flex-col">
                                     <div className="usernam text-lg">
-                                        JohnDoe
+                                        {userInfo.username}
                                     </div>
                                     <div className="email text-sm text-gray-300">
-                                        john.doe@gmail.com
+                                        {userInfo.email}
                                     </div>
                                 </div>
                                 <div className="text-red-300">
@@ -82,10 +83,11 @@ function Navbar ({DashboardLogo, className, mode}){
                     <span className={`hider md:hidden `} >
                         <i className={`fa-solid fa-bars md:hidden`} onClick={()=>{setIsNavOpen(prev=>!prev);}}></i>
                     </span>                    
-                </div>}
-
+                </div>
                 
-                {mode && <Link to={`/${mode.replace(/\s/g, "")}`} className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
+                :
+
+                <Link to={`/${mode.replace(/\s/g, "")}`} className="flex items-center justify-center bg-black text-white text-xl  rounded-full z-3 border py-4 px-8 max-lg:px-4">
                     <div to={`/${mode.replace(/\s/g, "")}`}>
                        {mode}
                     </div>

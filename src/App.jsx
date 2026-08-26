@@ -7,13 +7,12 @@ import Dashboard from './Pages/Dashboard.jsx';
 import Transactions from './Pages/Transactions.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
 import SignupPage from './Pages/SignupPage.jsx';
-import Navbar from './Pages/Index.jsx';
+import Index from './Pages/Index.jsx';
 import AiInsightsPage from './Pages/AiInsightsPage.jsx';
 import Settings from './Pages/Settings.jsx'
 import Test from './Pages/Test.jsx';
 import { getExampleTransactions, getTransactions } from './api/transactions.js';
 import { getExampleHoldings, getHoldings } from './api/holdings.js';
-
 
 function App() {
   const [transactions,setTransactions] = useState([]);
@@ -38,7 +37,8 @@ function App() {
                 response = await getExampleHoldings();
             }
             setHoldings(response.data);        
-        }
+        }     
+  
         // eslint-disable-next-line
         updateTransactions();
         updateHoldings();
@@ -83,7 +83,7 @@ function App() {
         <Route path="/signup" element={<SignupPage mode="signup"/>}/>
         <Route path="/login" element={<LoginPage mode="login"/>}/>   
         <Route path="/test" element={<Test/>}></Route>
-        <Route path="/" element={<Navbar/>}></Route>
+        <Route path="/" element={<Index/>}></Route>
         <Route path="/dashboard" element={<Dashboard transactions={transactions} holdings={holdings} prevMonthCategoryDistribution={prevMonthCategoryDistribution} monthBeforePrevCategoryDistribution={monthBeforePrevCategoryDistribution}/>} />
         <Route path="/transactions" element={<Transactions transactions={transactions}/>} />
         <Route path="/addTransactionsPage" element={<AddTransactionPage setTransactions={setTransactions} updateTransactions={updateTransactions}/>}></Route> 
