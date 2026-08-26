@@ -9,3 +9,8 @@ export async function getTransactions (){
         const response = await  api.get('/transactions');
         return response;
 }
+
+export async function getExampleTransactions (){
+        const response = await  api.get('/exampleTransactions');
+        return response;
+}

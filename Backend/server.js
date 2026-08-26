@@ -251,10 +251,23 @@ app.get('/api/transactions',authenticateToken, async(req,res)=>{
     try{
         const realTransactions = await realTransactionModel.find();
         if(realTransactions.length === 0){
-            const transactions = await transactionModel.find();
-            res.status(200).json(transactions);
+            res.status(200).json({message: "No transactions exists"});
         }else{
             res.status(200).json(realTransactions);
+        }
+        
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+})
+
+app.get('/api/exampleTransactions', async(req,res)=>{
+    try{
+        const exampleTransactions = await transactionModel.find();
+        if(exampleTransactions){
+            res.status(200).json(exampleTransactions);
+        }else{
+            res.status(200).json({message:"No example trasactions"});
         }
         
     }catch(err){
@@ -266,10 +279,24 @@ app.get('/api/holdings', authenticateToken, async (req,res)=>{
     try{
         const realHoldings = await realHoldingsModel.find();
         if(realHoldings.length === 0){
+            res.status(200).json({message: "No holdings found"});
+        }else{
+            res.status(200).json(realHoldings);
+        }
+        
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+})
+
+app.get('/api/exampleHoldings', async (req,res)=>{
+    try{
+        const exampleHoldings = await holdingsModel.find();
+        if(exampleHoldings){
             const holdings = await holdingsModel.find();
             res.status(200).json(holdings);
         }else{
-            res.status(200).json(realHoldings);
+            res.status(200).json({message: "no example holdings"});
         }
         
     }catch(err){
@@ -282,7 +309,7 @@ app.post('/api/PriceChartData', authenticateToken, async(req,res)=>{
         const {symbol} = req.body;
          async function getChart (){
         // eslint-disable-next-line no-undef
-            const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=${symbol}&interval=1day&apikey=${process.env.apiKey}`);
+            const response = await axios.get(`https://api.twelvedata.com/time_series?symbol=${symbol}&interval=1day&apikey=${process.env.priceChartApiKey}`);
             res.status(200).json(response.data);
         }
         getChart();
@@ -294,7 +321,7 @@ app.post('/api/PriceChartData', authenticateToken, async(req,res)=>{
 app.post('/api/aiInsights/getAiAnalysis', authenticateToken, async(req,res)=>{
     try{
         // eslint-disable-next-line no-undef
-        const aiApiKey = process.env.groqApiKey;
+        const aiApiKey = process.env.openRouterApiKey;
         const {data1, data2} = req.body;
         const {type} = req.body;
 
@@ -334,8 +361,8 @@ app.post('/api/aiInsights/getAiAnalysis', authenticateToken, async(req,res)=>{
                         `,
         };
 
-        const response = await axios.post("https://api.groq.com/openai/v1/chat/completions",{
-            model:"llama-3.1-8b-instant",
+        const response = await axios.post('https://openrouter.ai/api/v1/chat/completions',{
+            model:'openrouter/free',
             messages:[{
                 role:'system',
                 content: type === 'dashboard'? prompts.dashboard : prompts.detailed,

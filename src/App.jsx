@@ -11,8 +11,8 @@ import Navbar from './Pages/Index.jsx';
 import AiInsightsPage from './Pages/AiInsightsPage.jsx';
 import Settings from './Pages/Settings.jsx'
 import Test from './Pages/Test.jsx';
-import { getTransactions } from './api/transactions.js';
-import { getHoldings } from './api/holdings.js';
+import { getExampleTransactions, getTransactions } from './api/transactions.js';
+import { getExampleHoldings, getHoldings } from './api/holdings.js';
 
 
 function App() {
@@ -20,56 +20,63 @@ function App() {
   const [holdings,setHoldings] = useState([]);
 
     async function updateTransactions (){
-        const response = await  getTransactions();
+        let response = await  getTransactions();
+        console.log(response.data.message);
+        if(response.data.message === 'No transactions exists'){
+            response = await getExampleTransactions();
+            console.log('example data called');
+        }
         setTransactions(response.data);
         return response.data;
     }
-  useEffect(()=>{
 
-      async function updateHoldings (){
-        const response = await getHoldings();
-        setHoldings(response.data);        
-      }
-      // eslint-disable-next-line
-      updateTransactions();
-      updateHoldings();
-  },[])
+    useEffect(()=>{
 
-      let prevMonthTransactions = [];
-      let monthBeforePrevTransactions = [];
-      console.log(transactions);
-      console.log('hello');
-      console.log(new Date().getMonth());
-  
-      for(const transaction of transactions){
-          if(new Date(transaction.date).getMonth() === new Date().getMonth()){
-              prevMonthTransactions.push(transaction);    
-          }
-          if(new Date(transaction.date).getMonth() ===new Date().getMonth()-1){
-              monthBeforePrevTransactions.push(transaction);
-          }
-      }
-  
-      let prevMonthCategoryDistribution = new Map();
-      let monthBeforePrevCategoryDistribution = new Map ();
-  
-      function categoryBasedDistributionFn(monthArrayItems, distributionObj){
-          for(const monthArrayItem of monthArrayItems ){
-              if(distributionObj.has(monthArrayItem.category)){
-                  const getItem = distributionObj.get(monthArrayItem.category);
-                  getItem.amount += monthArrayItem.amount;
-              }else{
-                  distributionObj.set(monthArrayItem.category,{
-                      amount:monthArrayItem.amount,
-                      type:monthArrayItem.type
-                  })
-              }
-          }
-      }
-  
-      categoryBasedDistributionFn(prevMonthTransactions,prevMonthCategoryDistribution);
-      categoryBasedDistributionFn(monthBeforePrevTransactions, monthBeforePrevCategoryDistribution);
+        async function updateHoldings (){
+            let response = await getHoldings();
+            if(response.data.message === "No holdings found"){
+                response = await getExampleHoldings();
+            }
+            setHoldings(response.data);        
+        }
+        // eslint-disable-next-line
+        updateTransactions();
+        updateHoldings();
+    },[])
 
+    let prevMonthTransactions = [];
+    let monthBeforePrevTransactions = [];
+
+    let prevMonthCategoryDistribution = new Map();
+    let monthBeforePrevCategoryDistribution = new Map ();
+
+   
+    for(const transaction of transactions){
+        if(new Date(transaction.date).getMonth() === new Date().getMonth()){
+            prevMonthTransactions.push(transaction);    
+        }
+        if(new Date(transaction.date).getMonth() ===new Date().getMonth()-1){
+            monthBeforePrevTransactions.push(transaction);
+        }
+    }
+
+    function categoryBasedDistributionFn(monthArrayItems, distributionObj){
+        for(const monthArrayItem of monthArrayItems ){
+            if(distributionObj.has(monthArrayItem.category)){
+                const getItem = distributionObj.get(monthArrayItem.category);
+                getItem.amount += monthArrayItem.amount;
+            }else{
+                distributionObj.set(monthArrayItem.category,{
+                    amount:monthArrayItem.amount,
+                    type:monthArrayItem.type
+                })
+            }
+        }
+    }
+
+    categoryBasedDistributionFn(prevMonthTransactions,prevMonthCategoryDistribution);
+    categoryBasedDistributionFn(monthBeforePrevTransactions, monthBeforePrevCategoryDistribution);
+    
   return (
     <BrowserRouter>
       <Routes>
