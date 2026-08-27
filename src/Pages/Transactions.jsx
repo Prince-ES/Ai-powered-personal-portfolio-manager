@@ -41,7 +41,7 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
 
     return (
         <div className="dashboard pt-4  max-sm:pt-0">
-            <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden fixed left-0 right-0 z-4"/>
+            <Navbar DashboardLogo={DashboardLogo} className="max-sm:hidden fixed left-0 right-0 z-4" currentPage="Transactions"/>
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
             <div className="content relative z-3 pt-20 flex justify-center items-center flex-col gap-5 w-full max-sm:hidden">
                 <div className="heading flex justify-between w-full  px-8 bg-black/35 border border-white py-4 border-x-0" >

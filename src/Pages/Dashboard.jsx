@@ -71,7 +71,7 @@ function Dashboard ({transactions, holdings, prevMonthCategoryDistribution, mont
 
     return (
         <div className="dashboard pt-4 xl:overflow-hidden m-0  ">
-            <Navbar className="fixed w-full z-4" DashboardLogo={DashboardLogo} />
+            <Navbar className="fixed w-full z-4" DashboardLogo={DashboardLogo} currentPage="Dashboard"/>
             <div className="dashboard-content  pb-4 flex flex-col relative z-3  h-full ">
                 <div className="h-screen w-full flex flex-col items-center justify-center">
                     <div className="text-white p-8  flex flex-col items-center justify-center transform translate-y-[-13%] gap-16">

@@ -66,7 +66,7 @@ function Portfolio({holdings}){
         <div className="dashboard pt-4 max-sm:pt-0">
             <video src={RotateYourPhone} autoPlay loop muted playsInline className="relative z-10 hidden max-sm:block w-full max-h-screen object-cover "  ></video>
             
-            <Navbar className="max-sm:hidden fixed w-full z-4" DashboardLogo={DashboardLogo}/>
+            <Navbar className="max-sm:hidden fixed w-full z-4" DashboardLogo={DashboardLogo} currentPage="Portfolio"/>
             <div className="max-sm:hidden content pt-4 pb-4 flex flex-col relative z-3 gap-8">
                 <div className="h-screen w-full flex flex-col items-center justify-center">
                     <div className="text-white p-8  flex flex-col items-center justify-center transform translate-y-[-13%] gap-16">

@@ -48,7 +48,7 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
     },[prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution]);
     return (
         <div className="dashboard pt-16">
-            <Navbar className="fixed w-full z-4 top-4" DashboardLogo={DashboardLogo} />
+            <Navbar className="fixed w-full z-4 top-4" DashboardLogo={DashboardLogo} currentPage="AI Insights" />
             <div className="content flex flex-col items-center gap-8 pt-8 relative z-3">
                 <div className="pageTitle text-3xl font-bold text-white w-full max-md:text-center border-y border-white px-8 py-4 bg-black/35">
                     AI Financial Advisor

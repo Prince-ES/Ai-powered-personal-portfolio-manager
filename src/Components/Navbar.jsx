@@ -1,12 +1,14 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 import {useAuth} from '../context/AuthContext.jsx';
-function Navbar ({DashboardLogo, className, mode = "log in"}){
+function Navbar ({DashboardLogo, className, mode = "log in", currentPage}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const {userInfo, setUserInfo} = useAuth();
     // const isIndexPage = indexPage === "indexPage";
+    const selectedPageStyles = 'scale-110 font-bold text-gray-400';
     const hidden = className;
     return (
             <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
@@ -32,20 +34,20 @@ function Navbar ({DashboardLogo, className, mode = "log in"}){
                             <i className={`fa-solid fa-xmark `} onClick={()=>{setIsNavOpen(prev=>!prev);}}></i>
                         </div>
                     </div>
-                    <div className="dashboard-link  ">
-                        <Link to="/dashboard">Dashboard</Link>
+                    <div className="dashboard-link ">
+                        <Link to="/dashboard" className={`${currentPage === "Dashboard" ? selectedPageStyles : '' }`}>Dashboard</Link>
                     </div>
                     <div>
-                        <Link to="/portfolio">Portfolio</Link>
+                        <Link to="/portfolio" className={`${currentPage === "Portfolio" ? selectedPageStyles : '' }`}>Portfolio</Link>
                     </div>
                     <div>
-                        <Link to="/transactions">Transactions</Link>
+                        <Link to="/transactions" className={`${currentPage === "Transactions" ? selectedPageStyles : '' }`}>Transactions</Link>
                     </div>
                     <div>
-                        <Link to="/AiInsights">AI Insights</Link>
+                        <Link to="/AiInsights" className={`${currentPage === "AI Insights" ? selectedPageStyles : '' }`}>AI Insights</Link>
                     </div>
                     <div>
-                        <Link to="/settings">Settings</Link>
+                        <Link to="/settings" className={`${currentPage === "Settings" ? selectedPageStyles : '' }`}>Settings</Link>
                     </div>
                     <div className="md:hidden">
                         Logout
