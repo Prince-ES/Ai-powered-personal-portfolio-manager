@@ -7,8 +7,8 @@ function Settings (){
 
     const [select,setSelect] = useState('INR');
     return (
-        <div className="dashboard pt-4">
-            <Navbar DashboardLogo={DashboardLogo} currentPage="Settings"/>
+        <div className="dashboard pt-16">
+            <Navbar DashboardLogo={DashboardLogo} currentPage="Settings" className="fixed w-full z-4 top-4"/>
             <div className="content flex flex-col gap-8 pt-8 relative z-3">
                 <div className="pageTitle text-3xl font-bold text-white w-full max-md:text-center border-y border-white px-8 py-4 bg-black/35">
                     Settings

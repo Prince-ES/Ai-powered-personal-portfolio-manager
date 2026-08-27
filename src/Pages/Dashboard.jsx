@@ -4,7 +4,6 @@ import Piechart from '../Components/Piechart';
 import LineChart from '../Components/LineChart';
 import ReactMarkdown from 'react-markdown';
 import {useState, useEffect} from 'react';
-import axios from 'axios';
 // import '../Dashboard.css';
 import { formatTransactionAmount } from '../Components/transAmtFormatting';
 import DashboardLogo from '../assets/DashboardLogo.svg';

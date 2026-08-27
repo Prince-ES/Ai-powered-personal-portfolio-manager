@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import {getAccessToken} from '../api/auth.js';
 import { setNewAccessToken } from '../api/api.js';
 import {getUser} from '../api/user.js';
+import '../index.css';
 
 const AuthContext = createContext();
 
@@ -39,10 +40,10 @@ export function AuthProvider({ children }) {
 
     if(isInitialising){
         return (
-            <>
+            <div className="dashboard flex flex-col items-center justify-center text-2xl text-white">
                 <h1>Hello</h1>
                 <h2>Please wait, page is loading</h2>
-            </>
+            </div>
         )
     }
     return (
