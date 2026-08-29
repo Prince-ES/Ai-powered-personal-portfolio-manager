@@ -14,21 +14,15 @@ function AuthCard ({mode}){
     const [responseMsg, setResponseMsg] = useState('');
     const [resStatus, setResStatus] = useState('');
     // eslint-disable-next-line no-unused-vars
-    const {accessToken, setAccessToken} = useAuth();
+    const {accessToken, setAccessToken, userInfo, setUserInfo} = useAuth();
 
     const matchPassword = password === confirmPassword;
 
     const navigate = useNavigate();
 
-    function signupAttemptMsg(){
+    function authAttemptMsg(){
         setTimeout(()=>{
             setResponseMsg('');
-        },3000);
-    }
-
-    function navigateToLogin(){
-        setTimeout(()=>{
-            navigate('/login');
         },2000);
     }
 
@@ -39,28 +33,36 @@ function AuthCard ({mode}){
         setConfirmPassword('');
     }
 
-    async function handleSignupSubmit(){
+    async function handleAuthSubmit(){
         let res;
         try{
             if(isSignup){
 
-                res = await signUp(username,email,password);                
-                navigateToLogin();
+                res = await signUp(username,email,password);     
+                setTimeout(()=>{
+                    navigate('/login');
+                },2000)           
+                
 
             }else{
                 
                 res = await logIn(email, password);                
-                setAccessToken(res.data.accessToken);            
+                setAccessToken(res.data.accessToken);
+                setTimeout(()=>{
+                    navigate('/dashboard');
+                    setUserInfo({email: res.data.email, username: res.data.username});
+                },2000);  
+                        
             }
 
             setResponseMsg(res.data.message);
             setResStatus(res.status);
-            signupAttemptMsg();
+            authAttemptMsg();
             resetForm();
         }catch(error){
             setResponseMsg(error.response?.data?.message || "Something went wrong");
             setResStatus(error.response?.status);
-            signupAttemptMsg();
+            authAttemptMsg();
 
             if(error.response?.status === 409){
                 setEmail('');
@@ -71,7 +73,7 @@ function AuthCard ({mode}){
     return (
 
 
-        <form className="relative flex flex-col items-left justify-center bg-[#DDDDDD]  border-2 border-white px-8 py-12  rounded-[20px] shadow-2xl relative z-4" onSubmit={(e)=>{e.preventDefault(); handleSignupSubmit()}}>
+        <form className="relative flex flex-col items-left justify-center bg-[#DDDDDD]  border-2 border-white px-8 py-12  rounded-[20px] shadow-2xl relative z-4" onSubmit={(e)=>{e.preventDefault(); handleAuthSubmit()}}>
             {responseMsg && 
             <div className="absolute top-[50%] left-[25%] transform translate-y-[-50%]  bg-black/50 text-white py-2 px-4 rounded-full flex">
                 { (resStatus === 201 || resStatus === 200) ? <img className="h-[25px] mr-1" src={checkmark}/> : ''}

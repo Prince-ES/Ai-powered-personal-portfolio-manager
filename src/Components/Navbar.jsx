@@ -1,16 +1,60 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 import {useAuth} from '../context/AuthContext.jsx';
-function Navbar ({DashboardLogo, className, mode = "log in", currentPage}){
+import {logOut} from '../api/auth.js';
+import checkmark from '../assets/checkmark.png';
+import crossmark from '../assets/failed.png';
+
+function Navbar ({DashboardLogo, className, mode = "Log in", currentPage}){
     
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState(false);
+    const [logoutMessage, setLogoutMessage] = useState('');
+    const [resStatus, setResStatus] = useState('');
     // eslint-disable-next-line no-unused-vars
-    const {userInfo, setUserInfo} = useAuth();
+    const {accessToken, setAccessToken, userInfo, setUserInfo} = useAuth();
     // const isIndexPage = indexPage === "indexPage";
     const selectedPageStyles = 'scale-110 font-bold text-gray-400';
     const hidden = className;
+
+    function resetLogoutMessage(){
+        setTimeout(()=>{
+            setLogoutMessage('');
+            setAccessToken('');
+            setUserInfo('');
+
+        },2000);
+    }
+    async function handleLogout (){
+        try{
+            const response = await logOut();
+            console.log("logout response", response);
+            setResStatus(response?.status);
+            setLogoutMessage(response?.data?.message);
+            resetLogoutMessage();
+
+        }catch(error){
+            setResStatus(error.response?.status);
+            console.log(error.response?.status)
+            setLogoutMessage("failed logging out");
+            resetLogoutMessage();
+        }
+    }
+
     return (
+            <>
+            {logoutMessage &&  
+                <div className="absolute top-0 pointer-events-none inset-0 bg-black/35 z-5">
+                    <div className=" flex items-center justify-center z-10 h-screen w-full relative z-10">
+                        <div className="flex items-center justify-center gap-1 bg-white rounded-[10px] px-2 py-1 text-md">
+                            {resStatus === 200 &&<img src={checkmark} alt="checkmark" />}
+                            {resStatus === 401 || resStatus === 500 ? <img src={crossmark} className="h-5 "alt="crossmark" /> : null}
+                            <span className="">{logoutMessage}</span>
+                        </div>
+                    </div>
+                </div>           
+                
+            }
             <div className={`nav flex justify-between h-15 px-8 ${hidden}`}>
                 <div className="logo scale-125">
                     <Link to="/">
@@ -49,7 +93,7 @@ function Navbar ({DashboardLogo, className, mode = "log in", currentPage}){
                     <div>
                         <Link to="/settings" className={`${currentPage === "Settings" ? selectedPageStyles : '' }`}>Settings</Link>
                     </div>
-                    <div className="md:hidden">
+                    <div className="md:hidden" onClick={()=>{handleLogout(); setLogoutMessage('Logging out...')}}>
                         Logout
                     </div>
                 </div>
@@ -76,7 +120,7 @@ function Navbar ({DashboardLogo, className, mode = "log in", currentPage}){
                                         {userInfo.email}
                                     </div>
                                 </div>
-                                <div className="text-red-300">
+                                <div className="text-red-300 cursor-pointer" onClick={()=>{handleLogout();setLogoutMessage('Logging out...')}}>
                                     logout
                                 </div>
                             </div>                            
@@ -98,6 +142,7 @@ function Navbar ({DashboardLogo, className, mode = "log in", currentPage}){
                 
                 
             </div>
+            </>
     )
 }
 

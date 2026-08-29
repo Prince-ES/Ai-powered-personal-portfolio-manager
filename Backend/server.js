@@ -225,7 +225,9 @@ app.post('/api/auth/login', async(req,res)=>{
 
         return res.status(200).json({
             message:"Login successful",
-            accessToken
+            accessToken,
+            username:user.username,
+            email:user.email
         })
 
     }catch(error){
@@ -237,11 +239,23 @@ app.post('/api/auth/login', async(req,res)=>{
 
 })
 
+app.post('/api/logout',authenticateToken, ( req, res )=>{
+    try{
+        res.clearCookie('refreshToken',{
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 60 * 1000 * 60 * 24
+        })
+        res.status(200).json({message:'User logged out'});
+    }catch(error){
+        res.status(500).json({error:error})
+    }
+})
+
 app.get('/api/user',authenticateToken, (async(req, res)=>{
     try{
-        console.log("user", req.user);
         const userInfo = await userModel.findOne({email: req.user.email});
-        console.log("userinfo", userInfo);
 
         if(userInfo){
             return res.status(200).json({username:userInfo.username, email:userInfo.email});
@@ -319,7 +333,7 @@ app.get('/api/exampleHoldings', async (req,res)=>{
     }
 })
 
-app.post('/api/PriceChartData', authenticateToken, async(req,res)=>{    
+app.post('/api/PriceChartData', async(req,res)=>{    
     try{
         const {symbol} = req.body;
          async function getChart (){

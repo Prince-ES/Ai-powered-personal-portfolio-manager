@@ -46,6 +46,7 @@ export function AuthProvider({ children }) {
             </div>
         )
     }
+    console.log('refreshed after logout');
     return (
         <AuthContext.Provider value={{ accessToken, setAccessToken, userInfo, setUserInfo }}>
             {children}

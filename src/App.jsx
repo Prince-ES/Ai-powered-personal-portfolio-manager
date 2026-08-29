@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import AddTransactionPage from './Pages/AddTransactionsPage.jsx';
@@ -19,24 +20,39 @@ function App() {
   const [holdings,setHoldings] = useState([]);
 
     async function updateTransactions (){
-        let response = await  getTransactions();
-        console.log(response.data.message);
-        if(response.data.message === 'No transactions exists'){
-            response = await getExampleTransactions();
-            console.log('example data called');
+        let transactionRes;
+        try{
+             transactionRes = await  getTransactions();//get Transactions of the authorized user. 
+
+            if(transactionRes?.data?.message === 'No transactions exists'){//authorized but no trasactions so far.
+                transactionRes = await getExampleTransactions();
+            }
+
+            setTransactions(transactionRes.data);
+
+        }catch(error){//unAuthorized
+            transactionRes = await getExampleTransactions();
+            setTransactions(transactionRes.data);
         }
-        setTransactions(response.data);
-        return response.data;
+
+        return transactionRes.data;
     }
 
     useEffect(()=>{
 
         async function updateHoldings (){
-            let response = await getHoldings();
-            if(response.data.message === "No holdings found"){
-                response = await getExampleHoldings();
+            let holdingRes
+            try{
+                 holdingRes = await getHoldings();
+                if(holdingRes.data.message === "No holdings found"){
+                    holdingRes = await getExampleHoldings();
+                }
+                setHoldings(holdingRes.data);   
+            }catch(error){
+                holdingRes = await getExampleHoldings();
+                setHoldings(holdingRes.data);
             }
-            setHoldings(response.data);        
+     
         }     
   
         // eslint-disable-next-line
