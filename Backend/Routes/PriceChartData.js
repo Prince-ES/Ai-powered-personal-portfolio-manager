@@ -1,8 +1,9 @@
 import express from 'express';
+import axios from 'axios';
 
 const router = express.Router();
 
-router.post('/api/PriceChartData', async(req,res)=>{    
+router.post('/', async(req,res)=>{    
     try{
         const {symbol} = req.body;
          async function getChart (){
@@ -15,3 +16,5 @@ router.post('/api/PriceChartData', async(req,res)=>{
         res.status(500).json({error:err.message});
     }
 })
+
+export {router as priceChartDataRouter};

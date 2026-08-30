@@ -25,6 +25,6 @@ export async function getAccessToken(){
 }
 
 export async function logOut(){
-    const response = await api.post('/logout',{},{withCredentials:true});
+    const response = await api.post('/auth/logout',{},{withCredentials:true});
     return response;
 }

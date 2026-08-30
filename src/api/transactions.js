@@ -11,6 +11,6 @@ export async function getTransactions (){
 }
 
 export async function getExampleTransactions (){
-        const response = await  api.get('/exampleTransactions');
+        const response = await  api.get('/transactions/exampleTransactions');
         return response;
 }
