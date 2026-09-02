@@ -50,7 +50,10 @@ function AuthCard ({mode}){
                 setAccessToken(res.data.accessToken);
                 setTimeout(()=>{
                     navigate('/dashboard');
-                    setUserInfo({email: res.data.email, username: res.data.username});
+                    setUserInfo({email: res.data.email, username: res.data.username, ownerId: res.data.userId});
+                    console.log(res.data.userId);
+                    console.log(res);
+                    console.log(res.email);
                 },2000);  
                         
             }

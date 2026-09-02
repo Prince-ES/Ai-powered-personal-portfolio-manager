@@ -1,16 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useState} from 'react';
 import {Link} from 'react-router-dom';
 import { formatTransactionAmount } from '../Components/transAmtFormatting.js';
 // import '../Dashboard.css';
 import Navbar from '../Components/Navbar.jsx';
+import {useAuth} from '../context/AuthContext.jsx';
 import DashboardLogo from '../assets/DashboardLogo.svg';
 import RotateYourPhone from '../assets/rotateYourPhone.mp4';
+
  function Transactions({transactions}) {
     const [searchInput, setSearchInput] = useState('');
     const [selectInput, setSelectInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [amountInput, setAmountInput] = useState('');
     const [transactionType, setTransactionType] = useState('');
+    const {userInfo} = useAuth();
 
     const categoryGrouping = new Map();
 
@@ -48,9 +52,10 @@ import RotateYourPhone from '../assets/rotateYourPhone.mp4';
                     <h1 className="headingTitle text-4xl font-bold text-white">
                         Transactions
                     </h1>
-                    <Link to="/addTransactionsPage"className="addTransaction text-2xl text-white">
-                        + Add Transaction
-                    </Link>
+                    <div className="text-white">
+                        { userInfo ? <Link to="/addTransactionsPage"className="addTransaction text-2xl " >[+]    Add Transaction</Link> 
+                        : <Link className="italic text-lg underline" to="/login">Log in to add transactions</Link>}
+                    </div>
                 </div>
                 <div className="inputBox  w-full px-16 max-md:px-8">
                     <input type="text" value={searchInput} placeholder="Type to search by title..." className="w-full bg-white px-8 py-4 rounded-full text-xl outline-0" onChange={(e)=>{setSearchInput(e.target.value);console.log(e.target.value)}}/>

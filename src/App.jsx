@@ -14,16 +14,24 @@ import Settings from './Pages/Settings.jsx'
 import Test from './Pages/Test.jsx';
 import { getExampleTransactions, getTransactions } from './api/transactions.js';
 import { getExampleHoldings, getHoldings } from './api/holdings.js';
+import {useAuth} from './context/AuthContext.jsx';
 
 function App() {
   const [transactions,setTransactions] = useState([]);
   const [holdings,setHoldings] = useState([]);
 
+    console.log("🔴 APP RENDER");
+  const {userInfo} = useAuth();
+
     async function updateTransactions (){
         let transactionRes;
         try{
-             transactionRes = await  getTransactions();//get Transactions of the authorized user. 
 
+            if(userInfo){
+             transactionRes = await  getTransactions(userInfo.ownerId);//get Transactions of the authorized user. 
+            }else{
+                transactionRes = await getExampleTransactions();
+            }
             if(transactionRes?.data?.message === 'No transactions exists'){//authorized but no trasactions so far.
                 transactionRes = await getExampleTransactions();
             }
@@ -58,7 +66,7 @@ function App() {
         // eslint-disable-next-line
         updateTransactions();
         updateHoldings();
-    },[])
+    },[userInfo])
 
     let prevMonthTransactions = [];
     let monthBeforePrevTransactions = [];

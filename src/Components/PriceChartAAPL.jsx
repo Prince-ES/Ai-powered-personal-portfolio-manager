@@ -61,7 +61,7 @@ function PriceChartAAPL ({chartData}){
         },
     };
 
-    return <Chart type="candlestick" data={data} options={options} />
+    return <Chart type="candlestick" data={data} options={options} className="h-[400px]" />
 }
 
 

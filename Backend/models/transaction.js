@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 
 const transactionSchema = new mongoose.Schema({
-     title: {
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
+    title: {
     type: String,
     required: true
     },

@@ -38,6 +38,7 @@ api.interceptors.response.use(
 
             if(newAccessToken){
                 setNewAccessToken(newAccessToken);
+                accessToken = newAccessToken;
             }
 
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`

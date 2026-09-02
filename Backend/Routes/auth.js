@@ -133,7 +133,8 @@ router.post('/login', async(req,res)=>{
             message:"Login successful",
             accessToken,
             username:user.username,
-            email:user.email
+            email:user.email,
+            userId:user._id
         })
 
     }catch(error){

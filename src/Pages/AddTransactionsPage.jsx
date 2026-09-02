@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Navbar from '../Components/Navbar.jsx';
 import { postTransaction } from '../api/transactions.js';
+import {useAuth} from '../context/AuthContext.jsx';
 // import '../Dashboard.css';
 import DashboardLogo from '../assets/dashboardLogo.svg'
 
@@ -12,6 +13,7 @@ function AddTransactionPage( { updateTransactions}){
     const [category, setCategory] = useState('');
     const [notes, setNotes] = useState('');
     const [saveOn, setSaveOn] = useState(false);
+    const {userInfo} = useAuth();
     
     function reStartSaveButton (){
         setTimeout(()=>{
@@ -26,13 +28,13 @@ function AddTransactionPage( { updateTransactions}){
     }
 
     async function saveTransaction(){
-        await postTransaction(title, amount, type, category, notes);
+        await postTransaction(userInfo.ownerId, title, amount, type, category, notes);
         await updateTransactions();     
     }
 
     return (
-        <div className="dashboard pt-8">
-            <Navbar DashboardLogo={DashboardLogo}/>
+        <div className="dashboard pt-16">
+            <Navbar DashboardLogo={DashboardLogo} className="fixed top-4 w-full z-4"/>
             <div className="content pt-8 flex flex-col gap-8 relative z-3 items-center justify-center">
                 <div className="pageTitle w-full text-3xl bg-black/35 border-y border-white py-4 px-8 text-white font-bold max-md:text-center">
                     Add Transaction

@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {api} from './api.js'
+import { createContext } from "react";
+
+export const AuthContext = createContext(null);
 
 export async function signUp(username, email, password){
     const response = await axios.post('http://localhost:5000/api/auth/signup',{

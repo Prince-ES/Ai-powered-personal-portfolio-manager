@@ -7,7 +7,13 @@ const router = express.Router();
 
 router.get('/', async(req,res)=>{
     try{
-        const realTransactions = await realTransactionModel.find();
+        const {ownerId} = req.query;
+        if(!ownerId){
+            return res.status(400).json({message:"ownerId is required"});
+        }
+
+        const realTransactions = await realTransactionModel.find({ownerId: ownerId});
+
         if(realTransactions.length === 0){
             const transactions = await transactionModel.find();
             res.status(200).json(transactions);

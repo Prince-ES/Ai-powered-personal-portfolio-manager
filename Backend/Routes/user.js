@@ -9,7 +9,7 @@ router.get('/',authenticateToken, (async(req, res)=>{
         const userInfo = await userModel.findOne({email: req.user.email});
 
         if(userInfo){
-            return res.status(200).json({username:userInfo.username, email:userInfo.email});
+            return res.status(200).json({username:userInfo.username, email:userInfo.email, userId:userInfo._id});
 
         }
     }catch(error){
