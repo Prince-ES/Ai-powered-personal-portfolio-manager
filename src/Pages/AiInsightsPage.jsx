@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import {useState, useEffect} from 'react';
 import DashboardLogo from '../assets/dashboardLogo.svg';
 import { getAiInsights } from '../api/aiInsights';
+import remarkGrm from 'remark-gfm';
 // import '../Dashboard.css';
 
 function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBeforePrevCategoryDistribution}){
@@ -55,8 +56,8 @@ function AiInsightsPage ({transactions,prevMonthCategoryDistribution, monthBefor
                 </div>
                 <div className="pageContent text-white bg-black/35 w-full px-8 py-4 max-md:px-4 flex flex-col gap-8 ">
                     <div className="heading text-2xl font-bold">This Month Compared to Previous</div>
-                    <div className="text-lg flex flex-col gap-1 [&_ol]:list-decimal [&_ol]:mb-4 [&_ol]:ml-10 [&_ul]:list-disc  [&_ul]:mb-4 [&_ul]:ml-10">
-                        <ReactMarkdown >
+                    <div className="text-lg flex flex-col gap-1 [&_ol]:list-decimal [&_ol]:mb-4 [&_ol]:ml-10 [&_ul]:list-disc  [&_ul]:mb-4 [&_ul]:ml-10 [&_th]:text-left [&_table]:my-4 [&_th]:border-y-1">
+                        <ReactMarkdown remarkPlugins={[remarkGrm]} >{/**react-markdown itself follows CommonMark by default, and tables are a GitHub-Flavored Markdown (GFM) feature. remark-gfm adds table support */}
                             {analysis ? analysis : "Loading..."}
                         </ReactMarkdown>
                     </div>

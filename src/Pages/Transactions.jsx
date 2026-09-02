@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState} from 'react';
 import {Link} from 'react-router-dom';
 import { formatTransactionAmount } from '../Components/transAmtFormatting.js';
